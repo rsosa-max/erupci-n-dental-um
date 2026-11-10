@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microanatomía dental · Clase interactiva</title>
+<meta name="description" content="Clase interactiva sobre los tejidos dentales y periodontales: esmalte, dentina, pulpa, cemento y ligamento periodontal, con introducción a la caries.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --navy:#0c2a57;--scrub:#1d5bb8;--glove:#a9d8f5;--clinic:#f6f8fb;--panel:#fff;--ink:#0f1e33;--muted:#5a6b80;--line:#e2e8f0;--field:#f1f5fa;
+  --brand:#1d5bb8;--ok:#0f7a57;--ok-soft:#d9f2e7;--warn:#b4561a;--warn-soft:#fbeadc;--blue-soft:#e2ecfa;--err:#b3261e;--err-soft:#fde7e5;
+  --deci:#8fbbe0;--perm:#d9b673;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --clinic:#0a1626;--panel:#0f1d33;--ink:#e9eef6;--muted:#9aaac0;--line:#22344f;--field:#16263f;--brand:#5d9bf0;
+  --ok:#4fd1a5;--ok-soft:#10382c;--warn:#f0a56f;--warn-soft:#3b2616;--blue-soft:#172c4e;--err:#ff8f86;--err-soft:#3d1a18;
+}}
+:root[data-theme="dark"]{
+  --clinic:#0a1626;--panel:#0f1d33;--ink:#e9eef6;--muted:#9aaac0;--line:#22344f;--field:#16263f;--brand:#5d9bf0;
+  --ok:#4fd1a5;--ok-soft:#10382c;--warn:#f0a56f;--warn-soft:#3b2616;--blue-soft:#172c4e;--err:#ff8f86;--err-soft:#3d1a18;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--clinic);color:var(--ink);font:400 16px/1.55 'Geist',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.num{font-family:'Bricolage Grotesque','Geist',sans-serif}
+h2{font-weight:800;font-size:clamp(26px,4vw,36px);letter-spacing:-.03em;line-height:1.05}
+h3{font-weight:700;font-size:20px;letter-spacing:-.015em;line-height:1.2}
+p{max-width:68ch}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
+
+.hero{background:linear-gradient(100deg,#091e40 0%,#103a7a 55%,#1d5bb8 100%);color:#fff;padding:36px 20px 74px}
+.wrap{max-width:1180px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;color:var(--glove);font-size:14px;line-height:1.3}
+.brand{background:#fff;border-radius:14px;padding:12px 16px;width:max-content;max-width:100%}.brand img{display:block;width:clamp(170px,22vw,230px);height:auto}
+.hero h1{font-weight:800;font-size:clamp(46px,9vw,104px);letter-spacing:-.04em;line-height:.92;margin-top:26px}
+.hero p{color:#dbe9f8;font-size:clamp(17px,2vw,20px);margin-top:16px;max-width:56ch}
+
+.shell{max-width:1180px;margin:-44px auto 40px;padding:0 14px}
+.panel{background:var(--panel);border-radius:28px;box-shadow:0 24px 60px -24px rgba(12,42,87,.35);overflow:hidden}
+nav.tabs{display:flex;gap:6px;padding:12px;overflow-x:auto;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);z-index:5;scrollbar-width:none}
+nav.tabs button{border:0;background:transparent;padding:10px 16px;border-radius:12px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.tabs button[aria-selected="true"]{background:var(--scrub);color:#fff}
+section.tab{padding:32px clamp(18px,3vw,38px) 42px;animation:rise .35s ease}
+section.tab[hidden]{display:none}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){section.tab{animation:none}html{scroll-behavior:auto}}
+.lead{color:var(--muted);margin-top:10px;font-size:17px}
+.two{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:26px;margin-top:22px;align-items:start}
+@media(max-width:900px){.two{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--field);border-radius:16px;padding:18px}
+.card h3+p,.card h3+ul{margin-top:8px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:16px}
+.block{margin-top:38px}
+ul.clean{padding-left:18px}ul.clean li{margin-top:6px}
+.stage-light{background:#fff;border-radius:16px;border:1px solid var(--line);overflow:hidden}
+
+/* fases */
+.seg{display:flex;flex-wrap:wrap;gap:6px;margin-top:0}
+.seg button{border:0;background:var(--field);padding:9px 13px;border-radius:12px;font-weight:500;font-size:14.5px}
+.seg button.on,.seg button[aria-pressed="true"]{background:var(--scrub);color:#fff}
+.phase-tag{display:inline-block;background:var(--blue-soft);color:var(--brand);border-radius:99px;padding:3px 12px;font-size:14px;font-weight:600;margin-bottom:10px}
+#phaseText{margin-top:14px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;color:var(--muted);margin-top:12px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend b{width:13px;height:13px;border-radius:4px;display:inline-block;border:1px solid rgba(0,0,0,.2)}
+
+/* experimentos */
+.exp{display:flex;flex-direction:column;gap:10px}
+.exp p{font-size:15px}
+.exp .q{display:flex;gap:6px;margin-top:auto}
+.exp .q button{flex:1;border:1.5px solid var(--line);background:var(--panel);border-radius:10px;padding:7px;font-weight:600}
+.exp .ans{font-size:14.5px;border-radius:10px;padding:10px 12px}
+.right{background:var(--ok-soft);color:var(--ok)}.wrong{background:var(--err-soft);color:var(--err)}
+.exp .ans span{color:var(--ink);display:block;margin-top:3px;font-weight:400}
+
+/* simulador */
+.sim{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(290px,1fr);gap:22px;margin-top:20px;align-items:start}
+@media(max-width:940px){.sim{grid-template-columns:minmax(0,1fr)}}
+.age{font:800 clamp(44px,6vw,68px)/.95 'Bricolage Grotesque',sans-serif;letter-spacing:-.04em;color:var(--brand)}
+.phase-chip{display:inline-block;margin-top:8px;padding:4px 12px;border-radius:99px;font-weight:600;font-size:14px;background:var(--blue-soft);color:var(--brand)}
+.controls{padding:16px 18px 14px;background:var(--field);border-radius:16px;margin-top:14px;position:sticky;bottom:8px;z-index:3}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:14px;border-radius:99px;background:linear-gradient(90deg,#c5cedb 0 10%,#8fbbe0 10% 55%,#b9c8a8 55% 85%,#d9b673 85% 100%);margin:6px 0;cursor:grab;touch-action:pan-y}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;border-radius:50%;background:var(--scrub);border:4px solid #fff;box-shadow:0 3px 12px rgba(12,42,87,.5)}
+input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--scrub);border:4px solid #fff;box-shadow:0 3px 12px rgba(12,42,87,.5)}
+.ticks{position:relative;height:20px;font-size:12px;color:var(--muted)}
+.ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.ctrlrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:center}
+.btn{border:0;background:var(--scrub);color:#fff;font-weight:600;border-radius:12px;padding:9px 15px}
+.btn.alt{background:var(--panel);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.chk{display:inline-flex;gap:6px;align-items:center;font-size:14px;color:var(--muted);margin-left:4px}
+.chk input{accent-color:var(--scrub);width:16px;height:16px}
+svg text{font-family:'Geist',sans-serif}
+#sim svg{display:block;width:100%;height:auto}
+.tooth{cursor:pointer}
+.tooth:focus{outline:none}
+.tooth:focus-visible path,.tooth.sel path{stroke:#b3261e;stroke-width:2}
+.side>*+*{margin-top:12px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat{background:var(--field);border-radius:14px;padding:10px 14px}
+.stat .num{font-weight:700;font-size:30px;line-height:1.05}
+.stat small{color:var(--muted);font-size:13px;display:block}
+.events{font-size:14.5px;min-height:60px}
+.events ul{padding-left:16px;margin-top:4px}
+.crop{background-color:#fff;background-repeat:no-repeat;width:100%}
+.im3{background-image:url(__IMG3__)}
+.im4{background-image:url(__IMG4__)}
+.cropcap{font-size:13.5px;color:var(--muted);padding:8px 12px;border-top:1px solid var(--line)}
+.reto{display:grid;gap:8px;margin-top:12px}
+.reto div{display:flex;gap:10px;align-items:center;justify-content:space-between;background:var(--field);border-radius:14px;padding:10px 14px;font-size:15px;flex-wrap:wrap}
+.reto .res{flex-basis:100%;font-size:14px;border-radius:9px;padding:7px 10px}
+.toothcard table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:6px}
+.toothcard td{padding:3px 0;border-bottom:1px solid var(--line)}.toothcard td:last-child{text-align:right;font-weight:600}
+
+/* láminas */
+.plates{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+@media(max-width:700px){.plates{grid-template-columns:minmax(0,1fr)}}
+.plate{position:relative;background:#fff;line-height:0}
+.plate img{width:100%;height:auto;display:block}
+.plate button{position:absolute;border:0;background:transparent;border-radius:8px;padding:0}
+.plate button:hover,.plate button:focus-visible,.plate button.on{background:rgba(29,91,184,.16);box-shadow:inset 0 0 0 2px #1d5bb8;outline:none}
+dialog{border:0;border-radius:22px;padding:20px;background:var(--panel);color:var(--ink);width:min(680px,94vw);margin:auto;box-shadow:0 30px 80px rgba(12,42,87,.5)}
+dialog::backdrop{background:rgba(9,30,64,.65)}
+.glos{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin-top:14px;font-size:14.5px}
+.glos div{background:var(--field);border-radius:12px;padding:9px 12px}.glos em{color:var(--muted);font-style:normal;display:block;font-size:13px}
+.credit{font-size:13.5px;color:var(--muted);margin-top:14px;max-width:none}
+
+/* cronología */
+.tablewrap{overflow-x:auto;border-radius:14px;border:1px solid var(--line);margin-top:12px}
+table.chrono{border-collapse:collapse;width:100%;min-width:680px;font-size:15px;background:var(--panel)}
+table.chrono th,table.chrono td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+table.chrono thead th{background:var(--navy);color:#fff;font-weight:600;font-size:14px}
+table.chrono .grp th{background:var(--blue-soft);color:var(--brand);font-weight:700}
+table.chrono tbody th{font-weight:600}
+table.chrono small{color:var(--muted);font-weight:400}
+.tablehead{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:30px}
+.copied{color:var(--ok);font-size:14px;font-weight:600;min-height:20px}
+.seq{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.seq span{min-width:44px;background:var(--panel);border-radius:10px;padding:6px 9px;text-align:center;font-weight:600;font-size:14px;box-shadow:inset 0 0 0 1.5px var(--line)}
+
+/* quiz */
+.qz{margin-top:18px;background:var(--field);border-radius:16px;padding:18px}
+.qz fieldset{border:0;padding:0}
+.qz legend{font-weight:600;padding:0;margin-bottom:10px}
+.qz label{display:block;background:var(--panel);border-radius:10px;padding:9px 12px;margin-top:6px;cursor:pointer;box-shadow:inset 0 0 0 1.5px transparent}
+.qz label.good{box-shadow:inset 0 0 0 2px var(--ok);background:var(--ok-soft)}
+.qz label.bad{box-shadow:inset 0 0 0 2px var(--err);background:var(--err-soft)}
+.qz input{margin-right:8px;accent-color:var(--scrub)}
+.qz .fb{margin-top:10px;font-size:15px}
+#score{font:800 44px/1 'Bricolage Grotesque',sans-serif;color:var(--brand);margin-top:18px}
+footer{padding:0 20px 40px;color:var(--muted);font-size:13.5px}
+footer ol{padding-left:20px;margin-top:8px}footer li{margin-top:4px}
+footer p{max-width:none}
+
+
+/* ---- propio de esta clase ---- */
+.lvl{display:inline-flex;background:var(--field);border-radius:14px;padding:4px;gap:4px;margin-top:16px}
+.lvl button{border:0;background:transparent;border-radius:11px;padding:8px 14px;font-weight:600;font-size:14.5px;color:var(--muted)}
+.lvl button[aria-pressed="true"]{background:var(--scrub);color:#fff}
+.explore{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;margin-top:18px;align-items:start}
+@media(max-width:900px){.explore{grid-template-columns:minmax(0,1fr)}}
+.explore svg,.svgbox svg{display:block;width:100%;height:auto}
+.lbl{cursor:pointer}
+.lbl text{font:600 13.5px 'Geist',sans-serif;fill:#0f1e33;paint-order:stroke;stroke:#fff;stroke-width:4px}
+.lbl:hover text,.lbl.on text{fill:#1d5bb8}
+.lbl:focus{outline:none}.lbl:focus-visible text{fill:#1d5bb8;text-decoration:underline}
+.tis{cursor:pointer;transition:opacity .25s}
+.hs{cursor:pointer}.hs circle{fill:#1d5bb8;stroke:#fff;stroke-width:2}.hs text{fill:#fff;font:700 11px 'Geist',sans-serif;pointer-events:none}
+.hs:hover circle,.hs.on circle,.hs:focus-visible circle{fill:#b3261e}.hs:focus{outline:none}
+.tcard{background:var(--field);border-radius:18px;padding:20px}
+.tcard h3{font-size:24px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips span{background:var(--panel);border-radius:99px;padding:4px 11px;font-size:13.5px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.chips b{font-weight:600}
+.bar{display:flex;height:14px;border-radius:99px;overflow:hidden;margin-top:12px;background:var(--line)}
+.bar span{display:block;height:100%}
+.barlg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted);margin-top:6px}
+.barlg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.tcard .l2{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.tcard .l2 h4{font:700 15px 'Geist',sans-serif;color:var(--brand)}
+.tcard ul{padding-left:18px;margin-top:6px}.tcard li{margin-top:6px;font-size:15px}
+.tcard p{margin-top:8px;font-size:15.5px}
+.goto{margin-top:14px}
+.hint{font-size:14px;color:var(--muted);margin-top:10px}
+.sim2{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(260px,1fr);gap:22px;margin-top:18px;align-items:start}
+@media(max-width:900px){.sim2{grid-template-columns:minmax(0,1fr)}}
+.tub{display:grid;grid-template-columns:110px minmax(0,1fr) minmax(250px,300px);gap:18px;margin-top:18px;align-items:start}
+@media(max-width:980px){.tub{grid-template-columns:90px minmax(0,1fr)}.tub .side{grid-column:1/-1}}
+@media(max-width:560px){.tub{grid-template-columns:minmax(0,1fr)}#depthBar{display:none}}
+#depthBar svg{cursor:ns-resize;touch-action:none}
+.bignum{font:800 clamp(36px,5vw,52px)/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.035em;color:var(--brand)}
+.note{border-radius:14px;padding:12px 14px;font-size:15px;background:var(--blue-soft)}
+.note.warm{background:var(--warn-soft)}
+.rng{margin-top:12px}
+.rng label{font-weight:600;font-size:14px}
+.rng input[type=range]{background:linear-gradient(90deg,#efd49c,#e7b979 60%,#e88e8e)}
+#apRange{background:linear-gradient(90deg,#c9d9ee,#1d5bb8)}
+#carRange{background:linear-gradient(90deg,#d9f2e7 0 18%,#fbeadc 18% 60%,#fde7e5 60% 100%)}
+.legend2{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;color:var(--muted);margin-top:10px}
+.legend2 span{display:inline-flex;align-items:center;gap:6px}
+.legend2 b{width:13px;height:13px;border-radius:4px;display:inline-block;border:1px solid rgba(0,0,0,.18)}
+.zbtns{display:flex;flex-wrap:wrap;gap:6px}
+.zbtns button{border:0;background:var(--field);padding:8px 12px;border-radius:12px;font-weight:500;font-size:14px}
+.zbtns button[aria-pressed="true"]{background:var(--scrub);color:#fff}
+.zone{cursor:pointer}.zone:hover rect.hit{fill:rgba(29,91,184,.10)}.zone.on rect.hit{fill:rgba(29,91,184,.16);stroke:#1d5bb8;stroke-width:2}
+.zone:focus{outline:none}.zone:focus-visible rect.hit{stroke:#b3261e;stroke-width:2}
+.status{display:grid;gap:8px;margin-top:12px}
+.status div{display:grid;grid-template-columns:96px 1fr;gap:10px;background:var(--panel);border-radius:12px;padding:9px 12px;font-size:14.5px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.status b{font-weight:600}
+.status .chg{box-shadow:inset 0 0 0 2px var(--warn);background:var(--warn-soft)}
+.stagebtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.stagebtns button{border:0;background:var(--panel);box-shadow:inset 0 0 0 1.5px var(--line);border-radius:10px;padding:6px 10px;font-size:13.5px;font-weight:600;min-width:36px}
+.stagebtns button[aria-pressed="true"]{background:var(--scrub);color:#fff;box-shadow:none}
+table.cmp{border-collapse:collapse;width:100%;min-width:720px;font-size:14.5px;background:var(--panel)}
+table.cmp th,table.cmp td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+table.cmp thead th{background:var(--navy);color:#fff;font-weight:600}
+table.cmp tbody th{font-weight:600;white-space:nowrap}
+.hydro .zbtns{margin-top:10px}
+.cejwrap{display:grid;grid-template-columns:minmax(200px,280px) minmax(0,1fr);gap:20px;align-items:center;margin-top:14px}
+@media(max-width:640px){.cejwrap{grid-template-columns:minmax(0,1fr)}}
+.pct{font:800 40px/1 'Bricolage Grotesque',sans-serif;color:var(--brand)}
+@media print{.hero,nav.tabs,footer{display:none}}
+.mobtis{display:none;margin-top:12px}
+@media(max-width:640px){.mobtis{display:flex}#exSvg .lbl,#exSvg .glbl{display:none}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <div class="brand"><img src="data:image/png;base64,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" alt="ESEST, Universidad de Montemorelos" width="640" height="189"></div>
+  <h1>Microanatomía dental</h1>
+  <p>Los tejidos del diente y de su inserción, desde lo que distingues a simple vista hasta lo que solo revela el microscopio.</p>
+</div></header>
+
+<div class="shell"><main class="panel">
+<nav class="tabs" role="tablist" aria-label="Secciones de la clase">
+  <button role="tab" data-t="tej" aria-selected="true">1. Los tejidos</button>
+  <button role="tab" data-t="esm" aria-selected="false">2. Esmalte</button>
+  <button role="tab" data-t="den" aria-selected="false">3. Dentina</button>
+  <button role="tab" data-t="pul" aria-selected="false">4. Pulpa</button>
+  <button role="tab" data-t="cem" aria-selected="false">5. Cemento y ligamento</button>
+  <button role="tab" data-t="car" aria-selected="false">6. Caries</button>
+  <button role="tab" data-t="quiz" aria-selected="false">7. Autoevaluación</button>
+</nav>
+
+<!-- 1 TEJIDOS -->
+<section class="tab" id="t-tej">
+  <h2>Cinco tejidos, dos sistemas</h2>
+  <p class="lead">El esmalte, la dentina y la pulpa forman el diente. El cemento, el ligamento periodontal y el hueso alveolar forman el periodonto de inserción, que lo sostiene. Toca un tejido o su nombre para ver su ficha.</p>
+  <div class="lvl" role="group" aria-label="Nivel de detalle">
+    <button id="lv1" aria-pressed="true">Nivel 1 · Tejidos</button>
+    <button id="lv2" aria-pressed="false">Nivel 2 · Microestructuras</button>
+  </div>
+  <div class="zbtns mobtis" id="mobTis" role="group" aria-label="Tejidos"></div>
+  <div class="explore">
+    <div class="stage-light"><svg id="exSvg" viewBox="-110 30 620 570" role="img" aria-label="Corte mesiodistal de un molar inferior en su alvéolo"></svg></div>
+    <div>
+      <div class="tcard" id="tcard" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 ESMALTE -->
+<section class="tab" id="t-esm" hidden>
+  <h2>El esmalte guarda un registro de su formación</h2>
+  <p class="lead">Los ameloblastos secretan esmalte desde la UAD hacia afuera, primero en la cúspide y después hacia cervical. Su ritmo deja marcas: estrías transversales casi diarias y estrías de Retzius cada 7 a 10 días, aproximadamente. Avanza el tiempo y observa cómo se depositan las capas.</p>
+  <div class="sim2">
+    <div>
+      <div class="stage-light svgbox"><svg id="apSvg" viewBox="0 0 520 420" role="img" aria-label="Corte de una cúspide en formación con el frente de ameloblastos y las estrías de Retzius"></svg></div>
+      <div class="controls" style="position:static">
+        <label for="apRange" style="font-size:14px;font-weight:600">Tiempo de formación</label>
+        <input type="range" id="apRange" min="0" max="1500" value="0" step="1">
+        <div class="ctrlrow">
+          <button class="btn" id="apPlay">▶ Reproducir</button>
+          <label class="chk"><input type="checkbox" id="apR" checked>Estrías de Retzius</label>
+          <label class="chk"><input type="checkbox" id="apN">Línea neonatal</label>
+        </div>
+      </div>
+    </div>
+    <div class="side">
+      <div><div class="age" id="apDay"></div><span class="phase-chip" id="apPhase"></span></div>
+      <div class="stats">
+        <div class="stat"><div class="num" id="apThick">0</div><small>mm de esmalte en la cúspide</small></div>
+        <div class="stat"><div class="num" id="apLines">0</div><small>estrías de Retzius</small></div>
+        <div class="stat"><div class="num" id="apPeri">0</div><small>periquimatías por cara</small></div>
+        <div class="stat"><div class="num">4</div><small>µm por día, aprox.</small></div>
+      </div>
+      <p class="note" id="apNote"></p>
+      <div class="legend2">
+        <span><b style="background:#1d5bb8"></b>Ameloblastos secretando</span>
+        <span><b style="background:#fff;border:1.5px dashed #8a97a8"></b>Superficie final</span>
+        <span><b style="background:#9b8457"></b>Estría de Retzius</span>
+        <span><b style="background:#b3261e"></b>Periquimatía</span>
+      </div>
+    </div>
+  </div>
+  <p class="credit">Modelo didáctico con 4 µm de esmalte por día y una estría cada 8 días; para que se distingan, se dibuja una de cada cuatro estrías. En la realidad el ritmo de secreción cambia de la UAD a la superficie y la periodicidad varía entre personas, pero es constante en todos los dientes de un mismo individuo.</p>
+
+  <div class="block">
+    <h2>Lo que ve el microscopio</h2>
+    <div class="two">
+      <div class="stage-light svgbox"><svg id="prSvg" viewBox="0 0 420 230" role="img" aria-label="Aumento de prismas del esmalte con estrías transversales y una estría de Retzius"></svg></div>
+      <div>
+        <h3>Prismas y sus marcas</h3>
+        <p style="margin-top:8px">Cada prisma es el producto de un ameloblasto: mide unos 4 a 5 µm de ancho y recorre el espesor del esmalte. Las <strong>estrías transversales</strong> lo cruzan a ritmo casi diario. Las <strong>estrías de Retzius</strong> cruzan varios prismas a la vez y marcan el frente de formación en un mismo momento.</p>
+        <p class="hint">Cuenta las estrías transversales entre dos líneas de Retzius y tendrás la periodicidad de ese individuo.</p>
+      </div>
+    </div>
+    <div class="grid3">
+      <div class="card"><h3>Esmalte interprismático</h3><p>Rodea los prismas. Tiene la misma composición, pero sus cristales se orientan de otra forma, y esa diferencia es la que hace visible el límite de cada prisma.</p></div>
+      <div class="card"><h3>Bandas de Hunter-Schreger</h3><p>Bandas claras y oscuras alternadas, visibles con luz reflejada en los dos tercios internos. Se deben al cambio de dirección de grupos de prismas, que frena la propagación de grietas.</p></div>
+      <div class="card"><h3>Penachos, laminillas y husos</h3><ul class="clean"><li><strong>Penachos:</strong> zonas hipomineralizadas que parten de la UAD hacia el tercio interno.</li><li><strong>Laminillas:</strong> defectos lineales que pueden cruzar todo el espesor.</li><li><strong>Husos:</strong> prolongaciones odontoblásticas que quedaron atrapadas al otro lado de la UAD.</li></ul></div>
+      <div class="card"><h3>Unión amelodentinaria</h3><p>Festoneada, con las convexidades hacia la dentina. Aumenta el contacto entre un tejido duro y frágil y otro más elástico, y amortigua las fuerzas.</p></div>
+      <div class="card"><h3>Esmalte aprismático</h3><p>Capa superficial de unos 30 µm sin prismas, más frecuente en dientes deciduos y en cervical. El grabado ácido produce ahí un patrón menos retentivo.</p></div>
+      <div class="card"><h3>Periquimatías y línea neonatal</h3><p>Las periquimatías son los surcos donde las estrías de Retzius alcanzan la superficie. La línea neonatal es una estría acentuada por el estrés del nacimiento, presente en dientes deciduos y primeros molares permanentes.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 DENTINA -->
+<section class="tab" id="t-den" hidden>
+  <h2>Túbulos: la dentina cambia con la profundidad</h2>
+  <p class="lead">Los túbulos dentinarios corren desde la UAD hasta la pulpa. Como la superficie pulpar es mucho menor que la externa, convergen y se ensanchan conforme se acercan a ella. Desliza el control, o arrastra sobre la barra lateral, para recorrer un campo de 40 × 40 µm a diferentes profundidades.</p>
+  <div class="tub">
+    <div id="depthBar"><svg viewBox="0 0 110 420" role="slider" aria-label="Profundidad en la dentina" aria-valuemin="0" aria-valuemax="100" tabindex="-1"></svg></div>
+    <div>
+      <div class="stage-light svgbox"><svg id="tubSvg" viewBox="0 0 400 400" role="img" aria-label="Corte transversal de dentina con túbulos dentinarios"></svg></div>
+      <div class="rng">
+        <label for="depth">Profundidad: de la UAD a la pulpa</label>
+        <input type="range" id="depth" min="0" max="100" value="0" step="1">
+        <div class="ticks" style="height:18px"><span style="left:0;transform:none">UAD</span><span style="left:50%">Dentina media</span><span style="left:100%;transform:translateX(-100%)">Pulpa</span></div>
+      </div>
+    </div>
+    <div class="side">
+      <span class="phase-chip" id="tZone"></span>
+      <div><div class="bignum" id="tDen"></div><small style="color:var(--muted)">túbulos por mm²</small></div>
+      <div class="stats">
+        <div class="stat"><div class="num" id="tDia"></div><small>µm de diámetro de la luz</small></div>
+        <div class="stat"><div class="num" id="tArea"></div><small>de la superficie es luz tubular</small></div>
+      </div>
+      <div class="card" style="padding:12px 14px;font-size:14.5px"><strong>Prolongación odontoblástica:</strong> <span id="tProc"></span></div>
+      <p class="note" id="tNote"></p>
+    </div>
+  </div>
+  <div class="legend2">
+    <span><b style="background:#efd49c"></b>Dentina intertubular</span>
+    <span><b style="background:#fbf1d8"></b>Dentina peritubular</span>
+    <span><b style="background:#5b4632"></b>Luz del túbulo (líquido)</span>
+    <span><b style="background:#e58a8a"></b>Prolongación odontoblástica</span>
+  </div>
+  <p class="credit">Valores aproximados de Garberoglio y Brännström (1976) para dentina coronal humana. Otros estudios reportan diámetros algo mayores cerca de la pulpa (3 a 4 µm), pero coinciden en la tendencia.</p>
+
+  <div class="block hydro">
+    <h2>Por qué duele la dentina expuesta</h2>
+    <p class="lead">Según la teoría hidrodinámica de Brännström, el estímulo no llega directo al nervio. Desplaza el líquido de los túbulos, y ese movimiento activa las fibras A-delta del borde pulpar. Prueba cada estímulo.</p>
+    <div class="stage-light svgbox" style="margin-top:14px"><svg id="hySvg" viewBox="0 0 640 170" role="img" aria-label="Túbulo dentinario con líquido, prolongación odontoblástica y fibra nerviosa"></svg></div>
+    <div class="zbtns" id="hyBtns" role="group" aria-label="Estímulos"></div>
+    <p class="note" id="hyTxt" style="margin-top:12px"></p>
+  </div>
+
+  <div class="block">
+    <h2>Tipos de dentina</h2>
+    <div class="grid3">
+      <div class="card"><h3>Por su ubicación</h3><ul class="clean"><li><strong>Del manto:</strong> la primera capa formada, delgada y menos mineralizada, justo bajo la UAD.</li><li><strong>Circumpulpar:</strong> el grueso de la dentina.</li><li><strong>Predentina:</strong> matriz aún no mineralizada de 10 a 40 µm junto a los odontoblastos.</li></ul></div>
+      <div class="card"><h3>Por su momento</h3><ul class="clean"><li><strong>Primaria:</strong> se forma hasta completar la raíz.</li><li><strong>Secundaria:</strong> se deposita lentamente toda la vida y reduce la cámara pulpar.</li><li><strong>Terciaria:</strong> responde a un estímulo. Es reaccionaria si la forman los odontoblastos originales y reparativa si la forman células nuevas.</li></ul></div>
+      <div class="card"><h3>Alrededor del túbulo</h3><ul class="clean"><li><strong>Peritubular:</strong> anillo muy mineralizado y pobre en colágeno que recubre el túbulo; falta cerca de la pulpa.</li><li><strong>Intertubular:</strong> red de colágeno mineralizada entre túbulos; es la mayor parte de la dentina.</li><li><strong>Esclerótica:</strong> túbulos obliterados por mineral, por la edad o por caries lenta.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 PULPA -->
+<section class="tab" id="t-pul" hidden>
+  <h2>Zonas de la pulpa</h2>
+  <p class="lead">Dentina y pulpa forman el complejo dentinopulpar: tienen el mismo origen, dependen de los mismos odontoblastos y responden juntas a cualquier estímulo. Toca cada zona, de la dentina hacia el centro de la pulpa.</p>
+  <div class="explore">
+    <div class="stage-light svgbox"><svg id="pzSvg" viewBox="0 0 520 380" role="img" aria-label="Zonas de la pulpa desde la dentina hasta el núcleo pulpar"></svg></div>
+    <div class="tcard" id="pzCard" aria-live="polite"></div>
+  </div>
+  <div class="block">
+    <div class="grid3">
+      <div class="card"><h3>Funciones</h3><ul class="clean"><li><strong>Formativa:</strong> produce dentina toda la vida.</li><li><strong>Nutritiva:</strong> irriga a los odontoblastos y sus prolongaciones.</li><li><strong>Sensitiva:</strong> todo estímulo se percibe como dolor.</li><li><strong>Defensiva:</strong> forma dentina terciaria y responde con inflamación.</li></ul></div>
+      <div class="card"><h3>Dos tipos de dolor</h3><p><strong>Fibras A-delta:</strong> mielínicas, en la periferia; dolor agudo, breve y bien localizado, como el de la sensibilidad dentinaria.</p><p><strong>Fibras C:</strong> amielínicas, en el núcleo; dolor sordo, difuso y persistente, como el de la pulpitis.</p></div>
+      <div class="card"><h3>Un tejido encerrado</h3><p>La pulpa está rodeada de paredes rígidas y su irrigación entra sobre todo por el foramen apical. Por eso, cuando se inflama, el edema aumenta la presión, comprime los vasos y puede llevarla a la necrosis.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 CEMENTO Y LIGAMENTO -->
+<section class="tab" id="t-cem" hidden>
+  <h2>Unión amelocementaria</h2>
+  <p class="lead">En el cuello del diente, el esmalte y el cemento se encuentran de tres maneras posibles. Pueden coexistir en el mismo diente.</p>
+  <div class="zbtns" id="cejBtns" role="group" aria-label="Relación en la unión amelocementaria" style="margin-top:14px"></div>
+  <div class="cejwrap">
+    <div class="stage-light svgbox"><svg id="cejSvg" viewBox="0 0 240 230" role="img" aria-label="Relación entre esmalte y cemento en el cuello del diente"></svg></div>
+    <div id="cejTxt" aria-live="polite"></div>
+  </div>
+
+  <div class="block">
+    <h2>Fibras del ligamento periodontal</h2>
+    <p class="lead">El ligamento mide entre 0.15 y 0.38 mm y es más delgado en el tercio medio de la raíz. Sus fibras principales se agrupan según su orientación. Elige un grupo, o muestra las fibras de Sharpey.</p>
+    <div class="explore">
+      <div class="stage-light svgbox"><svg id="fbSvg" viewBox="50 196 300 340" role="img" aria-label="Raíces de un molar con los grupos de fibras del ligamento periodontal"></svg></div>
+      <div>
+        <div class="zbtns" id="fbBtns" role="group" aria-label="Grupos de fibras"></div>
+        <label class="chk" style="margin:12px 0 0"><input type="checkbox" id="shp">Mostrar fibras de Sharpey</label>
+        <div class="tcard" id="fbCard" style="margin-top:12px" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>Cemento</h2>
+    <div class="grid3">
+      <div class="card"><h3>Acelular de fibras extrínsecas</h3><p>Del tercio cervical a los dos tercios de la raíz. Se forma lento, sin cementocitos, y en él se insertan las fibras de Sharpey. Es el cemento de anclaje.</p></div>
+      <div class="card"><h3>Celular</h3><p>En el tercio apical y las furcaciones. Tiene cementocitos en lagunas con canalículos orientados hacia el ligamento, de donde se nutren. Es el cemento de adaptación y reparación.</p></div>
+      <div class="card"><h3>Toda la vida</h3><p>No tiene vasos ni nervios y casi no se remodela, pero se deposita continuamente, sobre todo en apical, para compensar el desgaste y la erupción continua. Mide de 20 a 50 µm en cervical y hasta 150 a 200 µm en apical.</p></div>
+      <div class="card"><h3>Funciones del ligamento</h3><ul class="clean"><li><strong>Soporte</strong> y amortiguación de cargas.</li><li><strong>Sensitiva:</strong> propiocepción y tacto.</li><li><strong>Formativa y de remodelado:</strong> fibroblastos, cementoblastos, osteoblastos y osteoclastos.</li><li><strong>Nutritiva</strong> para el cemento.</li></ul></div>
+      <div class="card"><h3>Restos de Malassez</h3><p>Islas epiteliales que quedan de la vaina de Hertwig dentro del ligamento. Ante la inflamación pueden proliferar y dar origen a quistes radiculares.</p></div>
+      <div class="card"><h3>Hueso alveolar</h3><p>La cortical que recubre el alvéolo recibe las fibras de Sharpey y en la radiografía se ve como la lámina dura. En salud, su cresta queda 1 a 2 mm apical a la UAC.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 CARIES -->
+<section class="tab" id="t-car" hidden>
+  <h2>Un mismo proceso, cinco respuestas</h2>
+  <p class="lead">La caries es la pérdida neta de mineral causada por los ácidos de la biopelícula. No es un hoyo desde el inicio: cada vez que el pH baja de su valor crítico, el tejido se desmineraliza, y cuando sube, puede recuperar mineral. Cada tejido responde de forma distinta. Avanza la lesión en una superficie proximal.</p>
+  <div class="sim2">
+    <div>
+      <div class="stage-light svgbox"><svg id="carSvg" viewBox="78 90 136 170" role="img" aria-label="Corte de molar con una lesión de caries proximal"></svg></div>
+      <div class="controls" style="position:static">
+        <label for="carRange" style="font-size:14px;font-weight:600">Etapa de la lesión</label>
+        <input type="range" id="carRange" min="0" max="6" value="0" step="1">
+        <div class="stagebtns" id="carBtns" role="group" aria-label="Etapas"></div>
+      </div>
+      <div class="legend2" id="carLeg"></div>
+    </div>
+    <div class="side">
+      <span class="phase-chip" id="carChip"></span>
+      <h3 id="carT" style="font-size:24px;margin-top:8px"></h3>
+      <p id="carP" style="margin-top:6px"></p>
+      <div class="status" id="carStatus" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>¿Por qué cada tejido responde distinto?</h2>
+    <div class="tablewrap"><table class="cmp">
+      <thead><tr><th scope="col"></th><th scope="col">Esmalte</th><th scope="col">Dentina</th><th scope="col">Cemento</th><th scope="col">Pulpa y ligamento</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Mineral</th><td>~96 %</td><td>~70 %</td><td>~45-50 %</td><td>Tejidos blandos</td></tr>
+        <tr><th scope="row">pH crítico</th><td>~5.5 (fluorapatita ~4.5)</td><td>~6.2-6.7</td><td>~6.2-6.7</td><td>No aplica</td></tr>
+        <tr><th scope="row">Células vivas</th><td>No</td><td>Prolongaciones odontoblásticas</td><td>Solo en el celular</td><td>Sí</td></tr>
+        <tr><th scope="row">Defensa</th><td>Solo remineralización</td><td>Esclerosis y dentina terciaria</td><td>Mínima</td><td>Inflamación</td></tr>
+        <tr><th scope="row">Cómo avanza</th><td>Sigue los prismas</td><td>Se extiende en la UAD y sigue los túbulos</td><td>Superficial y amplia; se pierde pronto</td><td>No se caria: se inflama, se necrosa y la infección sale por el ápice</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="block">
+    <div class="two">
+      <div class="stage-light svgbox"><svg id="coneSvg" viewBox="0 0 440 200" role="img" aria-label="Forma de la lesión en superficie lisa y en fosas y fisuras"></svg></div>
+      <div>
+        <h3>La forma la deciden los prismas</h3>
+        <p style="margin-top:8px">En una <strong>superficie lisa</strong> el cono del esmalte tiene la base en la superficie y el vértice hacia la UAD. En <strong>fosas y fisuras</strong> la lesión inicia en las paredes y el cono se invierte: la base queda hacia la UAD, de modo que una entrada pequeña puede esconder una lesión amplia. En la dentina, el cono siempre tiene la base en la UAD.</p>
+        <div class="card" style="margin-top:12px"><h3>Caries radicular</h3><p>Aparece cuando la recesión expone el cemento. Por su menor contenido mineral y su pH crítico más alto, avanza rápido, de forma superficial y extensa alrededor del cuello. El cemento se pierde pronto y la lesión continúa en la dentina radicular.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 QUIZ -->
+<section class="tab" id="t-quiz" hidden>
+  <h2>Comprueba lo aprendido</h2>
+  <p class="lead">Siete preguntas. Elige una opción y verás la explicación de inmediato.</p>
+  <div id="quiz"></div>
+  <div id="score" aria-live="polite"></div>
+  <button class="btn alt" id="reQuiz" style="margin-top:12px">Reiniciar</button>
+</section>
+</main></div>
+
+<footer class="wrap">
+  <p><strong>Fuentes</strong></p>
+  <ol>
+    <li>Nanci A. <em>Ten Cate’s Oral Histology: Development, Structure, and Function</em>, 9.ª ed. Elsevier; 2018.</li>
+    <li>Garberoglio R, Brännström M. Scanning electron microscopic investigation of human dentinal tubules. <em>Arch Oral Biol</em>. 1976;21(6):355-362.</li>
+    <li>Fejerskov O, Nyvad B, Kidd E, eds. <em>Dental Caries: The Disease and its Clinical Management</em>, 3.ª ed. Wiley Blackwell; 2015.</li>
+  </ol>
+</footer>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const NS='http://www.w3.org/2000/svg';
+function el(n,a={},p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const sstep=(a,b,x)=>{const t=clamp((x-a)/(b-a));return t*t*(3-2*t)};
+const RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function rng(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function crSample(P,closed,steps=10){const n=P.length,out=[],segs=closed?n:n-1;
+  for(let i=0;i<segs;i++){const p0=P[closed?(i-1+n)%n:Math.max(0,i-1)],p1=P[i],p2=P[(i+1)%n],p3=P[closed?(i+2)%n:Math.min(n-1,i+2)];
+    for(let k=0;k<steps;k++){const t=k/steps,t2=t*t,t3=t2*t;out.push([0,1].map(j=>.5*(2*p1[j]+(-p0[j]+p2[j])*t+(2*p0[j]-5*p1[j]+4*p2[j]-p3[j])*t2+(-p0[j]+3*p1[j]-3*p2[j]+p3[j])*t3)))}}
+  if(!closed)out.push(P[n-1]);return out}
+const poly=(P,close=true)=>'M'+P.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join('L')+(close?'Z':'');
+function xAt(pl,y,closed){let best=Infinity;const n=pl.length;for(let i=0;i<(closed?n:n-1);i++){const a=pl[i],b=pl[(i+1)%n];if(a[1]!==b[1]&&(a[1]-y)*(b[1]-y)<=0){const x=a[0]+(b[0]-a[0])*(y-a[1])/(b[1]-a[1]);if(x<best)best=x}}return best}
+function cr(K,y){const n=K.length;if(y<=K[0][0])return K[0][1];if(y>=K[n-1][0])return K[n-1][1];let i=0;while(y>K[i+1][0])i++;
+  const a=K[Math.max(0,i-1)][1],b=K[i][1],c=K[i+1][1],d=K[Math.min(n-1,i+2)][1],t=(y-K[i][0])/(K[i+1][0]-K[i][0]);
+  return .5*(2*b+(-a+c)*t+(2*a-5*b+4*c-d)*t*t+(-a+3*b-3*c+d)*t*t*t)}
+
+/* ---------- Pestañas ---------- */
+const tabs=$$('nav.tabs button');
+const onShow={};
+function showTab(id,anchor){tabs.forEach(b=>b.setAttribute('aria-selected',b.dataset.t===id));
+  $$('section.tab').forEach(s=>s.hidden=s.id!=='t-'+id);
+  (anchor?document.getElementById(anchor):$('.panel')).scrollIntoView({block:'start'});
+  if(onShow[id])onShow[id]()}
+tabs.forEach(b=>b.onclick=()=>showTab(b.dataset.t));
+
+/* ---------- Geometría del molar (corte mesiodistal) ---------- */
+const G={
+ out:[[112,212],[106,180],[104,150],[110,112],[122,84],[138,62],[152,52],[166,56],[182,72],[200,80],[218,72],[234,56],[248,52],[262,62],[278,84],[290,112],[296,150],[294,180],[288,212]],
+ dej:[[113,207],[114,180],[118,150],[124,118],[134,96],[146,82],[156,79],[168,86],[184,98],[200,102],[216,98],[232,86],[244,79],[254,82],[266,96],[276,118],[282,150],[286,180],[287,207]],
+ ch:[[155,124],[165,142],[180,150],[200,152],[220,150],[235,142],[245,124],[254,152],[257,200],[254,238],[246,258],[236,266],[220,260],[200,256],[180,260],[164,266],[154,258],[146,238],[143,200],[146,152]],
+ MO:[[208,112],[240,113],[300,119],[380,125],[450,132],[500,142]],
+ MI:[[208,200],[280,199],[300,187],[345,177],[420,171],[500,161]],
+};
+const cemT=y=>2.5+6*Math.pow(clamp((y-208)/292),2);
+function rootPts(off,y0=208){const f=typeof off==='function'?off:()=>off,L=[],R=[];
+  for(let y=y0;y<=500;y+=4){L.push([cr(G.MO,y)-f(y),y]);R.push([cr(G.MI,y)+f(y)*sstep(282,300,y),y])}
+  const xl=cr(G.MO,500)-f(500),xr=cr(G.MI,500)+f(500),cx=(xl+xr)/2,r=(xr-xl)/2,ry=r*1.24,A=[];
+  for(let k=1;k<12;k++){const th=Math.PI-k*Math.PI/12;A.push([cx+r*Math.cos(th),500+ry*Math.sin(th)])}
+  return [...L,...A,...R.reverse()]}
+const mir=P=>P.map(([x,y])=>[400-x,y]);
+function canalPts(){const L=[],R=[];for(let y=262;y<=512;y+=4){const yy=Math.min(y,500),c=(cr(G.MO,yy)+cr(G.MI,yy))/2,w=6.5-4.9*clamp((y-262)/250);L.push([c-w,y]);R.push([c+w,y])}return[...L,...R.reverse()]}
+const C={enam:'#f4efe1',den:'#efd49c',pulp:'#e88e8e',cem:'#c99d5f',pdl:'#f6c4bd',lam:'#d2c49f',bone:'#ece3cc',ging:'#f2a9b5'};
+function makeTooth(svg,o={}){const W=o.pdl||6,id=o.id,L={};
+  const defs=el('defs',{},svg);
+  const pat=el('pattern',{id:id+'tb',width:24,height:24,patternUnits:'userSpaceOnUse'},defs);
+  [[5,6,4,2.6],[16,4,3,2],[12,15,5,3],[3,19,2.5,2],[20,18,3,2.4]].forEach(([x,y,rx,ry])=>el('ellipse',{cx:x,cy:y,rx,ry,fill:'#dccfae'},pat));
+  const ca=el('clipPath',{id:id+'al'},defs);el('rect',{x:0,y:238,width:400,height:400},ca);
+  const g=n=>L[n]=el('g',{'data-l':n},svg);
+  const ring=(Po,Pi,fill,p)=>{[[Po,Pi],[mir(Po),mir(Pi)]].forEach(([a,b])=>el('path',{d:poly(a)+poly(b),fill,'fill-rule':'evenodd'},p))};
+  const both=(P,a,p)=>{el('path',Object.assign({d:poly(P)},a),p);el('path',Object.assign({d:poly(mir(P))},a),p)};
+  g('bone');const bd='M10 592L10 244Q10 238 16 238L384 238Q390 238 390 244L390 592Z';
+  el('path',{d:bd,fill:C.bone},L.bone);el('path',{d:bd,fill:`url(#${id}tb)`},L.bone);
+  g('ging');const gl=crSample([[10,246],[10,200],[60,197],[90,191],[103,185],[110,190],[114,246]],false,6);
+  both(gl,{fill:C.ging},L.ging);
+  g('peri');g('lam');g('pdl');L.lam.setAttribute('clip-path',`url(#${id}al)`);L.pdl.setAttribute('clip-path',`url(#${id}al)`);
+  g('fib');g('cem');g('rootD');g('crownD');g('ovD');g('enam');g('ovE');g('pulp');g('pulpOv');g('les');g('top');
+  const R0=rootPts(0),RW=rootPts(W),RL=rootPts(W+3.5),RI=rootPts(y=>-cemT(y));
+  ring(RL,RW,C.lam,L.lam);ring(RW,R0,C.pdl,L.pdl);ring(R0,RI,C.cem,L.cem);both(RI,{fill:C.den},L.rootD);
+  const outP=crSample(G.out,false,10),dejP=crSample(G.dej,false,10),chP=crSample(G.ch,true,8);
+  const cdD=poly([...dejP,[287,216],[113,216]]);el('path',{d:cdD,fill:C.den},L.crownD);
+  const enD=poly([...outP,...dejP.slice().reverse()]);el('path',{d:enD,fill:C.enam,stroke:'#cbbf9f','stroke-width':.8},L.enam);
+  const pd=poly(chP);el('path',{d:pd,fill:C.pulp},L.pulp);both(canalPts(),{fill:C.pulp},L.pulp);
+  const c1=el('clipPath',{id:id+'cd'},defs);el('path',{d:cdD},c1);L.ovD.setAttribute('clip-path',`url(#${id}cd)`);
+  const c2=el('clipPath',{id:id+'en'},defs);el('path',{d:enD},c2);L.ovE.setAttribute('clip-path',`url(#${id}en)`);
+  const c3=el('clipPath',{id:id+'pu'},defs);el('path',{d:pd},c3);both(canalPts(),{},c3);L.pulpOv.setAttribute('clip-path',`url(#${id}pu)`);
+  return {L,outP,dejP,chP,W,R0,id,defs}}
+function normals(P){return P.map((p,i)=>{const a=P[Math.max(0,i-1)],b=P[Math.min(P.length-1,i+1)],tx=b[0]-a[0],ty=b[1]-a[1],l=Math.hypot(tx,ty)||1;return[-ty/l,tx/l]})}
+
+/* ---------- 1. Explorador ---------- */
+const TD={
+ esmalte:{n:'Esmalte',ly:['enam','ovE'],chips:[['Origen','ectodermo (ameloblastos)'],['Células','ninguna en el diente erupcionado'],['Reparación','solo remineralización']],
+  bar:[[96,'#d9cfb2','Mineral'],[1,'#c97c5d','Orgánico'],[3,'#8fbbe0','Agua']],
+  l1:'<p>Es el tejido más mineralizado del cuerpo. Los ameloblastos que lo forman desaparecen al erupcionar el diente, así que no tiene células, vasos ni nervios, y no puede regenerarse. Mide hasta unos 2.5 mm en las cúspides y se adelgaza hacia cervical. Es muy duro, pero frágil: necesita el soporte de la dentina.</p>',
+  l2:'<ul><li>Prismas de 4 a 5 µm y esmalte interprismático.</li><li>Estrías de Retzius, periquimatías y línea neonatal.</li><li>Bandas de Hunter-Schreger, penachos, laminillas y husos.</li><li>Unión amelodentinaria festoneada.</li></ul>',tab:'esm'},
+ dentina:{n:'Dentina',ly:['crownD','rootD','ovD'],chips:[['Origen','ectomesénquima (papila dental)'],['Células','prolongaciones de odontoblastos'],['Reparación','dentina terciaria']],
+  bar:[[70,'#d9cfb2','Mineral'],[20,'#c97c5d','Orgánico (colágeno I)'],[10,'#8fbbe0','Agua']],
+  l1:'<p>Forma el cuerpo del diente y le da su color. Sus células, los odontoblastos, viven en la periferia de la pulpa y extienden prolongaciones dentro de los túbulos dentinarios. Por eso la dentina es un tejido vital y sensible que sigue formándose toda la vida. Es más elástica que el esmalte y amortigua las cargas.</p>',
+  l2:'<ul><li>Túbulos con curvatura en S en la corona, más anchos y numerosos hacia la pulpa.</li><li>Dentina peritubular e intertubular.</li><li>Dentina del manto, circumpulpar y predentina.</li><li>Dentina primaria, secundaria, terciaria y esclerótica.</li></ul>',tab:'den'},
+ pulpa:{n:'Pulpa',ly:['pulp'],chips:[['Origen','ectomesénquima (papila dental)'],['Tipo','tejido conjuntivo laxo'],['Ubicación','cámara pulpar y conductos']],
+  bar:[[100,'#e88e8e','Tejido blando, sin mineral']],
+  l1:'<p>Tejido conjuntivo laxo, muy vascularizado e inervado, encerrado entre paredes de dentina. Forma dentina, la nutre, transmite dolor y reacciona ante las agresiones. Se comunica con el periodonto por el foramen apical y los conductos accesorios, y su volumen disminuye con la edad.</p>',
+  l2:'<ul><li>Zona odontoblástica.</li><li>Zona oligocelular de Weil, con el plexo de Raschkow.</li><li>Zona rica en células.</li><li>Núcleo pulpar.</li></ul>',tab:'pul'},
+ cemento:{n:'Cemento',ly:['cem'],chips:[['Origen','folículo dental (cementoblastos)'],['Vasos y nervios','no tiene'],['Crecimiento','aposición de por vida']],
+  bar:[[48,'#d9cfb2','Mineral'],[52,'#c9b8a0','Orgánico y agua']],
+  l1:'<p>Recubre la raíz y ancla las fibras del ligamento periodontal. Casi no se remodela, pero se sigue depositando toda la vida, sobre todo en apical, para compensar el desgaste y la erupción continua. También repara pequeñas reabsorciones radiculares.</p>',
+  l2:'<ul><li>Acelular de fibras extrínsecas, en cervical y medio.</li><li>Celular, en apical y en las furcaciones.</li><li>Tres relaciones posibles en la UAC.</li><li>Fibras de Sharpey insertadas.</li></ul>',tab:'cem'},
+ ligamento:{n:'Ligamento periodontal',ly:['pdl'],chips:[['Origen','folículo dental'],['Espesor','0.15 a 0.38 mm'],['Tipo','conjuntivo fibroso denso']],
+  bar:[[100,'#f6c4bd','Tejido blando, sin mineral']],
+  l1:'<p>Une el cemento con el hueso alveolar. Sostiene el diente, amortigua la masticación, informa la posición y la fuerza (propiocepción) y contiene las células que forman y remodelan cemento y hueso. En la radiografía es el espacio oscuro entre la raíz y la lámina dura.</p>',
+  l2:'<ul><li>Grupos de fibras: de la cresta, horizontales, oblicuas, apicales e interradiculares.</li><li>Fibras de Sharpey en cemento y hueso.</li><li>Restos epiteliales de Malassez.</li></ul>',tab:'cem'},
+ hueso:{n:'Hueso alveolar',ly:['bone','lam'],chips:[['Mineral','~60 %'],['Radiografía','lámina dura'],['Depende de','la presencia del diente']],
+  bar:[[60,'#d9cfb2','Mineral'],[40,'#c9b8a0','Orgánico y agua']],
+  l1:'<p>Completa el periodonto de inserción. La cortical que recubre el alvéolo recibe las fibras de Sharpey y se ve radiopaca como lámina dura. Se remodela de forma constante y se reabsorbe cuando el diente se pierde.</p>',
+  l2:'<ul><li>Cresta alveolar 1 a 2 mm apical a la UAC.</li><li>Tabique interradicular en dientes multirradiculares.</li></ul>',tab:'cem'},
+};
+const HS=[
+ {n:1,x:154,y:64,t:'Estrías de Retzius',tab:'esm',b:'Ver la aposición del esmalte',h:'<p>Líneas incrementales que marcan la posición del frente de ameloblastos cada 7 a 10 días, aproximadamente. Sobre la cúspide forman cúpulas; hacia cervical corren oblicuas hasta la superficie, donde terminan como periquimatías. Una estría acentuada al nacer forma la línea neonatal.</p>'},
+ {n:2,x:117,y:150,t:'Unión amelodentinaria (UAD)',tab:'esm',a:'prSvg',b:'Ver estructuras del esmalte',h:'<p>Límite festoneado entre esmalte y dentina, con las convexidades hacia la dentina. Los festones aumentan el contacto entre ambos tejidos y ayudan a frenar las grietas. De aquí parten penachos y husos, y en la caries la desmineralización se extiende a lo largo de ella.</p>'},
+ {n:3,x:200,y:124,t:'Túbulos y prolongaciones odontoblásticas',tab:'den',b:'Ver el slider de túbulos',h:'<p>Cada túbulo aloja la prolongación de un odontoblasto y líquido dentinario. Recorren la dentina en forma de S desde la UAD hasta la pulpa, y se vuelven más anchos y numerosos al acercarse a ella. Por ellos viajan los estímulos que causan sensibilidad y los productos bacterianos de la caries.</p>'},
+ {n:4,x:252,y:205,t:'Zonas celulares de la pulpa',tab:'pul',b:'Ver las zonas de la pulpa',h:'<p>Desde la dentina hacia el centro: capa de odontoblastos, zona oligocelular de Weil, zona rica en células y núcleo pulpar. La organización es más clara en la pulpa coronal.</p>'},
+ {n:5,x:110,y:211,t:'Unión amelocementaria (UAC)',tab:'cem',b:'Ver las tres relaciones',h:'<p>Donde termina el esmalte y empieza el cemento. El cemento puede cubrir el borde del esmalte, unirse borde a borde o dejar un hueco con dentina expuesta, lo que explica sensibilidad cervical en algunos pacientes.</p>'},
+ {n:6,x:123,y:400,t:'Fibras de Sharpey',tab:'cem',a:'fbSvg',b:'Ver las fibras del ligamento',h:'<p>Extremos de las fibras principales del ligamento que quedan incluidos y mineralizados dentro del cemento y del hueso alveolar. Son el anclaje real del diente a su alvéolo.</p>'},
+ {n:7,x:152,y:503,t:'Cemento celular',tab:'cem',b:'Ver tipos de cemento',h:'<p>En el tercio apical el cemento es más grueso y contiene cementocitos en lagunas. Se deposita como respuesta funcional y permite reparar el ápice.</p>'},
+];
+const ex=makeTooth($('#exSvg'),{id:'ex'});
+(function decorate(){
+  const P=ex.dejP,N=normals(P);
+  for(let k=1;k<=9;k++)el('path',{d:poly(P.map((p,i)=>[p[0]-N[i][0]*k*3,p[1]-N[i][1]*k*3]),false),fill:'none',stroke:'#a89466','stroke-width':.6,opacity:.85},ex.L.ovE);
+  for(let i=2;i<P.length-2;i+=3){const p=P[i],n=N[i],t=[n[1],-n[0]],Lg=48,a=4;
+    el('path',{d:`M${p[0]} ${p[1]}C${p[0]+n[0]*Lg/3+t[0]*a} ${p[1]+n[1]*Lg/3+t[1]*a} ${p[0]+n[0]*2*Lg/3-t[0]*a} ${p[1]+n[1]*2*Lg/3-t[1]*a} ${p[0]+n[0]*Lg} ${p[1]+n[1]*Lg}`,fill:'none',stroke:'#b48a4a','stroke-width':.7,opacity:.7},ex.L.ovD)}
+})();
+const exL=el('g',{},$('#exSvg'));
+const LB=[['esmalte','Esmalte',128,68,0,68,'L'],['dentina','Dentina',126,160,0,150,'L'],['pulpa','Pulpa',153,350,0,330,'L'],
+ ['cemento','Cemento',267,430,400,430,'R'],['ligamento','Ligamento|periodontal',282,330,400,315,'R'],['hueso','Hueso alveolar',340,470,400,500,'R']];
+LB.forEach(([k,t,px,py,ex_,ty,s])=>{const g=el('g',{class:'lbl',tabindex:0,role:'button','data-k':k,'aria-label':'Ver '+t.replace('|',' ')},exL);
+  el('line',{x1:px,y1:py,x2:ex_,y2:ty,stroke:'#5a6b80','stroke-width':.8},g);el('circle',{cx:px,cy:py,r:2.4,fill:'#0f1e33'},g);
+  const tx=el('text',{x:s==='L'?-6:406,y:ty+4,'text-anchor':s==='L'?'end':'start'},g);
+  t.split('|').forEach((w,i)=>{const sp=el('tspan',{x:s==='L'?-6:406,dy:i?16:0},tx);sp.textContent=w});
+  g.onclick=()=>selTis(k);g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selTis(k)}}});
+const gl=el('text',{class:'glbl',x:-6,y:222,'text-anchor':'end','font-size':12.5,fill:'#8a5560','font-family':'Geist'},exL);gl.textContent='Encía';
+el('line',{class:'glbl',x1:40,y1:214,x2:0,y2:218,stroke:'#b9a0a6','stroke-width':.8},exL);
+Object.entries(TD).forEach(([k,d])=>{const b=document.createElement('button');b.textContent=d.n;b.dataset.k=k;b.onclick=()=>selTis(k);$('#mobTis').appendChild(b)});
+const hsG=el('g',{},$('#exSvg'));
+HS.forEach(h=>{const g=el('g',{class:'hs',tabindex:0,role:'button','aria-label':h.t},hsG);el('circle',{cx:h.x,cy:h.y,r:9},g);const t=el('text',{x:h.x,y:h.y+4,'text-anchor':'middle'},g);t.textContent=h.n;
+  g.onclick=()=>selHS(h,g);g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selHS(h,g)}}});
+Object.entries(TD).forEach(([k,d])=>d.ly.forEach(l=>{ex.L[l].classList.add('tis');ex.L[l].addEventListener('click',()=>selTis(k))}));
+let lv=1,curK=null;
+function setLv(n){lv=n;$('#lv1').setAttribute('aria-pressed',n===1);$('#lv2').setAttribute('aria-pressed',n===2);
+  [ex.L.ovD,ex.L.ovE,hsG].forEach(g=>g.style.display=n===2?'':'none');
+  if(curK)selTis(curK);else intro()}
+$('#lv1').onclick=()=>setLv(1);$('#lv2').onclick=()=>setLv(2);
+function dim(keep){Object.entries(ex.L).forEach(([n,g])=>{if(['top','les','pulpOv','fib','peri'].includes(n))return;g.style.opacity=keep&&!keep.includes(n)?.22:1})}
+function intro(){dim(null);$$('.lbl').forEach(l=>l.classList.remove('on'));
+  $('#tcard').innerHTML=lv===1?'<h3>Elige un tejido</h3><p>Toca un tejido en el corte o su nombre. Cada ficha resume su origen, su composición y sus funciones.</p><p class="hint">Cambia al nivel 2 para ver las microestructuras numeradas.</p>':'<h3>Microestructuras</h3><p>Los números señalan estructuras que solo se ven al microscopio. En el corte ya aparecen, de forma esquemática, las estrías de Retzius en el esmalte y los túbulos en la dentina coronal.</p><p class="hint">Toca un número para ver su descripción.</p>'}
+function goBtn(tab,label,anchor){return `<button class="btn alt goto" data-go="${tab}" data-anc="${anchor||''}">${label} →</button>`}
+function selTis(k){curK=k;const d=TD[k];dim(d.ly);$$('.hs').forEach(h=>h.classList.remove('on'));$$('.lbl').forEach(l=>l.classList.toggle('on',l.dataset.k===k));$$('#mobTis button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
+  $('#tcard').innerHTML=`<h3>${d.n}</h3><div class="chips">${d.chips.map(([a,b])=>`<span><b>${a}:</b> ${b}</span>`).join('')}</div>
+  <div class="bar" role="img" aria-label="Composición aproximada en peso">${d.bar.map(([v,c])=>`<span style="width:${v}%;background:${c}"></span>`).join('')}</div>
+  <div class="barlg">${d.bar.map(([v,c,l])=>`<span><i style="background:${c}"></i>${l}${d.bar.length>1?' '+v+' %':''}</span>`).join('')}</div>
+  ${d.l1}${lv===2?`<div class="l2"><h4>Nivel 2</h4>${d.l2}${goBtn(d.tab,'Profundizar')}</div>`:`<p class="hint">Cambia al nivel 2 para ver sus microestructuras.</p>`}`}
+function selHS(h,g){curK=null;dim(null);$$('.lbl').forEach(l=>l.classList.remove('on'));$$('.hs').forEach(x=>x.classList.toggle('on',x===g));
+  $('#tcard').innerHTML=`<span class="phase-tag">Microestructura ${h.n}</span><h3>${h.t}</h3>${h.h}${goBtn(h.tab,h.b,h.a)}`}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)showTab(b.dataset.go,b.dataset.anc||null)});
+setLv(1);
+
+/* ---------- 2. Aposición del esmalte ---------- */
+const AP={cx:260,top:92,A:160,B:250,pw:1.7,Tm:62,D:1500,r:.1,P:8,ND:256,N:241,EVERY:4};
+const apU=[...Array(AP.N)].map((_,i)=>-1+2*i/(AP.N-1));
+const apD=apU.map(u=>[AP.cx+AP.A*u,AP.top+AP.B*Math.pow(Math.abs(u),AP.pw)]);
+const apNo=apU.map(u=>{const e=1e-3,f=v=>[AP.cx+AP.A*v,AP.top+AP.B*Math.pow(Math.abs(v),AP.pw)],a=f(u-e),b=f(u+e),tx=b[0]-a[0],ty=b[1]-a[1],l=Math.hypot(tx,ty);return[ty/l,-tx/l]});
+const apT=u=>AP.Tm*(1-Math.pow(Math.abs(u),2.4));
+const apH=(u,t)=>clamp(AP.r*(t-Math.abs(u)*AP.D),0,apT(u));
+const apPt=(i,h)=>[apD[i][0]+apNo[i][0]*h,apD[i][1]+apNo[i][1]*h];
+const apS=$('#apSvg');
+el('path',{d:poly([...apD,[420,420],[100,420]]),fill:C.den},apS);
+el('path',{d:'M206 420C210 330 232 248 260 222C288 248 310 330 314 420Z',fill:C.pulp,opacity:.85},apS);
+const apEn=el('path',{fill:C.enam,stroke:'#cbbf9f','stroke-width':.8},apS);
+el('path',{d:poly(apU.map((u,i)=>apPt(i,apT(u))),false),fill:'none',stroke:'#8a97a8','stroke-dasharray':'4 4'},apS);
+el('path',{d:poly(apD,false),fill:'none',stroke:'#a5864f','stroke-width':1.2},apS);
+const apRz=el('g',{},apS),apPk=el('g',{},apS),apNe=el('path',{fill:'none',stroke:'#7a4b14','stroke-width':2.6},apS);
+const apFr=el('path',{fill:'none',stroke:'#1d5bb8','stroke-width':5,'stroke-linecap':'round'},apS);
+[['Dentina',262,330],['Pulpa',262,400],['UAD',150,262]].forEach(([t,x,y])=>{const e=el('text',{x,y,'text-anchor':'middle','font-size':13,fill:'#6d5a2e'},apS);e.textContent=t});
+const apSurfL=el('text',{x:420,y:150,'font-size':12.5,fill:'#5a6b80'},apS);apSurfL.textContent='superficie final';
+const apAmL=el('text',{'font-size':12.5,fill:'#1d5bb8','font-weight':600},apS);
+function apLine(t){const runs=[];let cur=null;
+  apU.forEach((u,i)=>{const h=AP.r*(t-Math.abs(u)*AP.D),T=apT(u),ok=h>0&&h<T-.05;
+    if(ok){if(!cur){cur={p:[],s0:h>=T-.05?false:(i>0&&AP.r*(t-Math.abs(apU[i-1])*AP.D)>=apT(apU[i-1])-.05)};runs.push(cur)}cur.p.push(apPt(i,h));cur.last=i}
+    else if(cur){cur.s1=h>=T-.05;cur=null}});
+  return runs}
+function apRender(){const t=+$('#apRange').value;
+  const H=apU.map(u=>apH(u,t));
+  apEn.setAttribute('d',poly([...apU.map((u,i)=>apPt(i,H[i])),...apD.slice().reverse()]));
+  apRz.innerHTML='';apPk.innerHTML='';let peri=0;const show=$('#apR').checked;const nk=Math.floor(t/AP.P);
+  for(let k=1;k<=nk;k++){const runs=apLine(k*AP.P);let touch=false;
+    const drawn=k%AP.EVERY===0;runs.forEach(r=>{if(show&&drawn&&r.p.length>1)el('path',{d:poly(r.p,false),fill:'none',stroke:'#9b8457','stroke-width':.8,opacity:.75},apRz);
+      [[r.s0,0],[r.s1,r.p.length-1]].forEach(([s,j])=>{if(s){touch=true;const i=j===0?apU.indexOf(apU[0]):0;const p=r.p[j];
+        if(show&&drawn)el('circle',{cx:p[0],cy:p[1],r:2.4,fill:'#b3261e'},apPk)}})});
+    if(touch)peri++}
+  const nl=$('#apN').checked&&t>=AP.ND?apLine(AP.ND):[];apNe.setAttribute('d',nl.map(r=>poly(r.p,false)).join(''));
+  const fr=[];let run=[];apU.forEach((u,i)=>{if(H[i]>0&&H[i]<apT(u)-.05)run.push(apPt(i,H[i]));else if(run.length){fr.push(run);run=[]}});if(run.length)fr.push(run);
+  apFr.setAttribute('d',fr.filter(r=>r.length>1).map(r=>poly(r,false)).join(''));
+  const mid=fr.length?fr[0][Math.floor(fr[0].length/2)]:null;
+  if(mid&&t>0){apAmL.setAttribute('x',12);apAmL.setAttribute('y',24);apAmL.textContent=fr.length>1?'ameloblastos (mesial y distal)':'frente de ameloblastos';}else apAmL.textContent='';
+  $('#apDay').textContent='Día '+t;$('#apThick').textContent=(H[(AP.N-1)/2]*0.04).toFixed(2);$('#apLines').textContent=nk;$('#apPeri').textContent=peri;
+  const cusp=H[(AP.N-1)/2]>=AP.Tm-.05;
+  $('#apPhase').textContent=t===0?'Inicio en la cúspide':t>=1500?'Esmalte de la corona completo':peri?'Esmalte imbricacional':'Esmalte cuspídeo';
+  $('#apNote').innerHTML=t===0?'La secreción comienza en la UAD, bajo la punta de la cúspide.':peri?'Hacia cervical, cada estría alcanza la superficie y deja una <strong>periquimatía</strong>.'+(cusp?' La cúspide ya terminó su espesor.':''):'Sobre la cúspide las estrías forman <strong>cúpulas</strong> que no llegan a la superficie: son las estrías ocultas del esmalte cuspídeo.';
+  if($('#apN').checked)$('#apNote').innerHTML+=t>=AP.ND?' La línea neonatal (café) marca dónde estaba el frente al nacer.':' La línea neonatal aparecerá cuando el frente alcance el momento del nacimiento.'}
+['input','change'].forEach(ev=>{$('#apRange').addEventListener(ev,()=>{apStop();apRender()})});
+$('#apR').onchange=apRender;$('#apN').onchange=apRender;
+let apRaf=null,apLast=0;
+function apStop(){if(apRaf){cancelAnimationFrame(apRaf);apRaf=null}$('#apPlay').textContent='▶ Reproducir'}
+function apTick(n){const dt=n-apLast;apLast=n;let v=+$('#apRange').value+dt*.16;if(v>=1500){$('#apRange').value=1500;apRender();apStop();return}$('#apRange').value=v;apRender();apRaf=requestAnimationFrame(apTick)}
+$('#apPlay').onclick=()=>{if(apRaf){apStop();return}if(+$('#apRange').value>=1500)$('#apRange').value=0;if(RM){$('#apRange').value=1500;apRender();return}$('#apPlay').textContent='❚❚ Pausa';apLast=performance.now();apRaf=requestAnimationFrame(apTick)};
+apRender();
+
+/* prismas */
+(function(){const s=$('#prSvg');const W=420,H=230;
+  for(let i=0;i<9;i++){const x=20+i*44;el('rect',{x,y:10,width:34,height:H-20,rx:10,fill:i%2?'#efe7d2':'#f6f1e3',stroke:'#d6c9a6'},s);
+    for(let y=22;y<H-14;y+=11)el('line',{x1:x+4,x2:x+30,y1:y,y2:y,stroke:'#c3b28a','stroke-width':.8},s)}
+  el('line',{x1:10,y1:180,x2:410,y2:56,stroke:'#7a4b14','stroke-width':3},s);
+  el('line',{x1:10,y1:224,x2:410,y2:100,stroke:'#7a4b14','stroke-width':3,opacity:.0},s);
+  const t1=el('text',{x:300,y:52,'font-size':13,fill:'#7a4b14','font-weight':600,'font-family':'Geist'},s);t1.textContent='estría de Retzius';
+  const t2=el('text',{x:20,y:H-2,'font-size':12,fill:'#5a6b80','font-family':'Geist'},s);t2.textContent='prismas (4-5 µm) con estrías transversales';})();
+
+/* ---------- 3. Túbulos ---------- */
+const TS=$('#tubSvg');
+const tubPts=(()=>{const R=rng(7),P=[];for(let k=0;k<84;k++){let best=null,bd=-1;for(let c=0;c<14;c++){const q=[12+R()*376,12+R()*376];let d=1e9;P.forEach(p=>d=Math.min(d,Math.hypot(p[0]-q[0],p[1]-q[1])));if(d>bd){bd=d;best=q}}P.push(best)}return P})();
+const tk=(K,d)=>{for(let i=1;i<K.length;i++)if(d<=K[i][0]){const t=(d-K[i-1][0])/(K[i][0]-K[i-1][0]);return lerp(K[i-1][1],K[i][1],t)}return K[K.length-1][1]};
+const DEN=[[0,20000],[.5,29500],[1,45000]],DIA=[[0,.9],[.5,1.2],[.8,1.7],[1,2.5]],PT=[[0,.75],[.6,.5],[.92,.1],[1,0]];
+el('rect',{width:400,height:400,fill:C.den},TS);const tbBr=el('g',{},TS),tbG=el('g',{},TS);
+el('rect',{x:16,y:378,width:100,height:6,fill:'#0f1e33'},TS);const sb=el('text',{x:16,y:372,'font-size':13,fill:'#0f1e33','font-weight':600},TS);sb.textContent='10 µm';
+function tubRender(){const d=+$('#depth').value/100,n=tk(DEN,d),D=tk(DIA,d),pt=tk(PT,d),cnt=Math.round(n*0.0016);
+  const vis=tubPts.slice(0,cnt);tbG.innerHTML='';tbBr.innerHTML='';
+  if(d<.3)vis.forEach((p,i)=>{let b=null,bd=1e9;vis.forEach((q,j)=>{if(j!==i){const dd=Math.hypot(p[0]-q[0],p[1]-q[1]);if(dd<bd){bd=dd;b=q}}});if(b&&bd<90)el('line',{x1:p[0],y1:p[1],x2:b[0],y2:b[1],stroke:'#c49f60','stroke-width':1.1,opacity:(.3-d)/.3*.8},tbBr)});
+  vis.forEach(p=>{if(pt>0)el('circle',{cx:p[0],cy:p[1],r:(D/2+pt)*10,fill:'#fbf1d8',stroke:'#e2c88f','stroke-width':.6},tbG);
+    el('circle',{cx:p[0],cy:p[1],r:D/2*10,fill:'#5b4632'},tbG);
+    if(d>=.33)el('circle',{cx:p[0],cy:p[1],r:D/2*10*.55,fill:'#e58a8a',opacity:d>=.66?1:.55,'stroke-dasharray':d<.66?'2 2':null,stroke:d<.66?'#fff':'none','stroke-width':.6},tbG)});
+  const area=n*Math.PI*(D/2)**2/1e4;
+  $('#tDen').textContent=Math.round(n/500)*500>0?(Math.round(n/500)*500).toLocaleString('es-MX'):'';
+  $('#tDia').textContent=D.toFixed(1);$('#tArea').textContent=(area<10?area.toFixed(1):Math.round(area))+' %';
+  $('#tZone').textContent=d<.33?'Tercio externo, cerca de la UAD':d<.66?'Tercio medio':'Tercio interno, cerca de la pulpa';
+  $('#tProc').textContent=d<.33?'su presencia aquí está en debate. Los túbulos se ramifican y se comunican entre sí.':d<.66?'puede llegar a esta zona; su extensión exacta sigue en discusión.':'presente dentro del túbulo.'+(d>.9?' La dentina peritubular aún no se forma junto a la predentina.':'');
+  $('#tNote').className='note'+(d>.66?' warm':'');
+  $('#tNote').innerHTML=d<.33?'Aquí los túbulos ocupan alrededor de 1 % de la superficie. La dentina superficial es poco permeable y en ella la adhesión suele ser más predecible.':d<.66?'La superficie tubular crece rápido con la profundidad, y con ella la permeabilidad.':'Cerca de la pulpa la luz tubular ocupa cerca de una quinta parte del corte. En una cavidad profunda los ácidos, los monómeros y las bacterias llegan a la pulpa con facilidad: hay que protegerla.';
+  dbMark(d)}
+$('#depth').addEventListener('input',tubRender);
+/* barra de profundidad */
+const DB=$('#depthBar svg');
+el('rect',{x:20,y:0,width:70,height:40,fill:C.enam,stroke:'#cbbf9f'},DB);
+el('rect',{x:20,y:40,width:70,height:310,fill:C.den},DB);
+for(let i=0;i<7;i++){const xt=24+i*10.3,xb=40+i*5.5;el('path',{d:`M${xt} 40C${xt+8} 140 ${xb-8} 250 ${xb} 350`,fill:'none',stroke:'#a87f3f','stroke-width':.9+i*0},DB)}
+el('rect',{x:20,y:350,width:70,height:12,fill:'#f8ecd0'},DB);
+for(let i=0;i<7;i++)el('ellipse',{cx:27+i*9.5,cy:372,rx:4,ry:8,fill:'#d97c7c'},DB);
+el('rect',{x:20,y:382,width:70,height:38,fill:C.pulp},DB);
+[['Esmalte',20],['UAD',44],['Pulpa',408]].forEach(([t,y])=>{const e=el('text',{x:55,y:y+(t==='UAD'?10:0),'text-anchor':'middle','font-size':11,fill:'#5a6b80'},DB);e.textContent=t});
+const dbm=el('g',{},DB);el('line',{x1:10,x2:100,y1:0,y2:0,stroke:'#b3261e','stroke-width':2.5},dbm);el('path',{d:'M2 -7L12 0L2 7Z',fill:'#b3261e'},dbm);el('path',{d:'M108 -7L98 0L108 7Z',fill:'#b3261e'},dbm);
+function dbMark(d){dbm.setAttribute('transform',`translate(0 ${40+d*310})`);DB.setAttribute('aria-valuenow',Math.round(d*100))}
+function dbSet(e){const r=DB.getBoundingClientRect(),y=(e.clientY-r.top)/r.height*420;$('#depth').value=Math.round(clamp((y-40)/310)*100);tubRender()}
+DB.addEventListener('pointerdown',e=>{DB.setPointerCapture(e.pointerId);dbSet(e)});DB.addEventListener('pointermove',e=>{if(e.buttons)dbSet(e)});
+tubRender();
+
+/* hidrodinámica */
+const HY=$('#hySvg');
+el('rect',{x:0,y:0,width:60,height:170,fill:'#eef3f9'},HY);
+el('rect',{x:60,y:0,width:440,height:170,fill:C.den},HY);
+el('rect',{x:500,y:0,width:140,height:170,fill:C.pulp},HY);
+el('rect',{x:60,y:66,width:440,height:28,rx:4,fill:'#fbf1d8'},HY);
+el('rect',{x:60,y:70,width:440,height:20,fill:'#6b5640'},HY);
+el('path',{d:'M500 80 L330 80',stroke:'#e58a8a','stroke-width':8,'stroke-linecap':'round'},HY);
+el('ellipse',{cx:540,cy:80,rx:30,ry:16,fill:'#d46f6f'},HY);
+const nerve=el('path',{d:'M640 132 C600 132 560 110 520 96 C500 90 470 86 440 86',fill:'none',stroke:'#e9c46a','stroke-width':3.5,'stroke-linecap':'round'},HY);
+const flash=el('circle',{cx:440,cy:86,r:9,fill:'#f4a300',opacity:0},HY);
+const plug=el('rect',{x:60,y:68,width:26,height:24,rx:3,fill:'#8a6b3c',opacity:0},HY);
+const stim=el('text',{x:30,y:40,'text-anchor':'middle','font-size':24},HY);
+[['Dentina expuesta',6,160,'start'],['Pulpa',570,30,'middle'],['Odontoblasto',540,118,'middle'],['Fibra A-delta',600,154,'middle']].forEach(([t,x,y,a])=>{const e=el('text',{x,y,'text-anchor':a,'font-size':12,fill:'#3b4a5c','font-family':'Geist'},HY);e.textContent=t});
+const parts=[...Array(16)].map((_,i)=>({x:70+i*27,el:el('circle',{cy:76+(i%3)*4,r:2.6,fill:'#a9d8f5'},HY)}));
+const HYM={rep:{l:'Sin estímulo',v:0,s:'',t:'En reposo, el líquido tubular está casi quieto y la fibra nerviosa no se activa.'},
+ aire:{l:'Aire o frío',v:-70,s:'❄',t:'El aire y el frío extraen líquido hacia afuera rápidamente. El movimiento deforma las terminaciones A-delta: dolor agudo y breve.'},
+ dulce:{l:'Dulce',v:-45,s:'🍬',t:'Una solución concentrada, como el azúcar, atrae líquido por ósmosis hacia afuera. También provoca dolor agudo.'},
+ calor:{l:'Calor',v:22,s:'♨',t:'El calor dilata el líquido y lo empuja hacia la pulpa. El flujo hacia adentro es más lento y suele doler menos.'},
+ obl:{l:'Túbulo obliterado',v:0,s:'❄',t:'Si el túbulo está ocluido por dentina esclerótica, barniz o un desensibilizante, el líquido no se mueve y el mismo estímulo no causa dolor. Así funcionan muchos tratamientos para la sensibilidad.'}};
+let hyMode='rep',hyRaf=null,hyLast=0;
+Object.entries(HYM).forEach(([k,m])=>{const b=document.createElement('button');b.textContent=m.l;b.dataset.k=k;b.onclick=()=>setHy(k);$('#hyBtns').appendChild(b)});
+function setHy(k){hyMode=k;const m=HYM[k];$$('#hyBtns button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));$('#hyTxt').textContent=m.t;stim.textContent=m.s;plug.setAttribute('opacity',k==='obl'?1:0);
+  const act=Math.abs(m.v)/70;nerve.setAttribute('stroke',act>.5?'#f4a300':'#e9c46a');nerve.setAttribute('stroke-width',3.5+act*2.5);flash.setAttribute('opacity',act>.5?.8:act>0?.35:0);
+  if(!hyRaf&&m.v&&!RM){hyLast=performance.now();hyRaf=requestAnimationFrame(hyTick)}}
+function hyTick(n){const dt=Math.min(.05,(n-hyLast)/1000);hyLast=n;const v=HYM[hyMode].v;
+  if(!v||$('#t-den').hidden){hyRaf=null;return}
+  parts.forEach(p=>{p.x+=v*dt;if(p.x<66)p.x+=430;if(p.x>496)p.x-=430;p.el.setAttribute('cx',p.x)});hyRaf=requestAnimationFrame(hyTick)}
+parts.forEach(p=>p.el.setAttribute('cx',p.x));setHy('rep');
+onShow.den=()=>{if(HYM[hyMode].v)setHy(hyMode)};
+
+/* ---------- 4. Zonas de la pulpa ---------- */
+const PZ=[
+ {k:'den',n:'Dentina',y:0,h:70,t:'<p>Dentina circumpulpar mineralizada, atravesada por túbulos que alojan las prolongaciones odontoblásticas.</p>'},
+ {k:'pre',n:'Predentina',y:70,h:18,t:'<p>Franja de 10 a 40 µm de matriz orgánica aún no mineralizada. Su presencia indica que la formación de dentina continúa, y protege la superficie pulpar de la reabsorción.</p>'},
+ {k:'odo',n:'Zona odontoblástica',y:88,h:62,t:'<p>Una capa de odontoblastos en empalizada, con el núcleo hacia la pulpa y la prolongación dentro del túbulo. Son cilíndricos en la corona y más aplanados en la raíz. Unidos entre sí, forman una barrera que regula la permeabilidad de la dentina.</p>'},
+ {k:'weil',n:'Zona oligocelular de Weil',y:150,h:48,t:'<p>Franja pobre en células, rica en capilares y en el <strong>plexo nervioso de Raschkow</strong>, de donde salen las fibras que llegan a la capa odontoblástica. Se distingue mejor en la corona y puede no verse en pulpas jóvenes o cuando se forma dentina con rapidez.</p>'},
+ {k:'rica',n:'Zona rica en células',y:198,h:62,t:'<p>Alta densidad de fibroblastos y de células mesenquimáticas indiferenciadas. Estas últimas pueden diferenciarse en células semejantes a odontoblastos cuando los originales mueren, y formar dentina reparativa.</p>'},
+ {k:'nuc',n:'Núcleo pulpar',y:260,h:120,t:'<p>Centro de la pulpa. Tiene los vasos y los troncos nerviosos de mayor calibre, fibroblastos, células de defensa y sustancia fundamental. Aquí abundan las fibras C, responsables del dolor sordo de la inflamación.</p>'},
+];
+(function(){const s=$('#pzSvg'),R=rng(11);
+  el('rect',{x:0,y:0,width:520,height:70,fill:C.den},s);for(let x=14;x<520;x+=26){el('rect',{x:x-3,y:0,width:6,height:70,fill:'#fbf1d8'},s);el('line',{x1:x,x2:x,y1:0,y2:88,stroke:'#5b4632','stroke-width':2},s)}
+  el('rect',{x:0,y:70,width:520,height:18,fill:'#f8ecd0'},s);for(let x=14;x<520;x+=26)el('line',{x1:x,x2:x,y1:70,y2:88,stroke:'#5b4632','stroke-width':2},s);
+  el('rect',{x:0,y:88,width:520,height:292,fill:'#f4c4c4'},s);
+  for(let x=14;x<520;x+=26){el('rect',{x:x-9,y:92,width:18,height:54,rx:8,fill:'#e7a3a3',stroke:'#c97979'},s);el('ellipse',{cx:x,cy:130,rx:5.5,ry:7,fill:'#7c3b4a'},s);el('line',{x1:x,x2:x,y1:20,y2:92,stroke:'#e58a8a','stroke-width':2.4},s)}
+  for(let i=0;i<9;i++){const x=20+i*58;el('circle',{cx:x+R()*20,cy:166+R()*16,r:4,fill:'none',stroke:'#c0392b','stroke-width':2},s)}
+  el('path',{d:'M0 182 C60 160 110 196 170 176 S280 160 340 182 S450 196 520 172',fill:'none',stroke:'#e9b949','stroke-width':2.4},s);
+  el('path',{d:'M0 170 C70 186 130 160 200 178 S320 190 380 168 S470 160 520 186',fill:'none',stroke:'#e9b949','stroke-width':1.6},s);
+  for(let i=0;i<14;i++){const x=20+i*37+R()*8;el('path',{d:`M${x} 172 C${x+4} 150 ${x-4} 130 ${x+2} 112`,fill:'none',stroke:'#e9b949','stroke-width':1},s)}
+  for(let i=0;i<70;i++)el('ellipse',{cx:8+R()*504,cy:206+R()*48,rx:4.5,ry:2.4,transform:'',fill:'#7c3b4a',opacity:.85},s);
+  for(let i=0;i<10;i++)el('ellipse',{cx:10+R()*500,cy:270+R()*100,rx:4,ry:2,fill:'#7c3b4a',opacity:.6},s);
+  el('ellipse',{cx:140,cy:325,rx:44,ry:24,fill:'#c0392b',opacity:.85},s);el('ellipse',{cx:140,cy:325,rx:36,ry:17,fill:'#8e1f1f'},s);
+  el('ellipse',{cx:250,cy:330,rx:30,ry:20,fill:'#5a6fb0',opacity:.8},s);
+  el('ellipse',{cx:380,cy:322,rx:40,ry:22,fill:'#e9b949'},s);for(let i=0;i<9;i++)el('circle',{cx:358+(i%3)*14+R()*3,cy:310+Math.floor(i/3)*12,r:4.5,fill:'#f6dc8c',stroke:'#c99a2e'},s);
+  [['arteriola',140,362],['vénula',250,362],['nervio',380,362]].forEach(([t,x,y])=>{const e=el('text',{x,y,'text-anchor':'middle','font-size':12,fill:'#5a2a2a','font-family':'Geist'},s);e.textContent=t});
+  PZ.forEach(z=>{const g=el('g',{class:'zone',tabindex:0,role:'button','aria-label':z.n},s);z.g=g;
+    el('rect',{class:'hit',x:1,y:z.y+1,width:518,height:z.h-2,rx:6,fill:'transparent'},g);
+    const tx=el('text',{x:512,y:z.y+z.h/2+5,'text-anchor':'end','font-size':13.5,'font-weight':600,fill:'#0f1e33','font-family':'Geist',style:'paint-order:stroke;stroke:#fff;stroke-width:4px'},g);tx.textContent=z.n;
+    g.onclick=()=>selPZ(z);g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selPZ(z)}}})})();
+function selPZ(z){PZ.forEach(q=>q.g.classList.toggle('on',q===z));$('#pzCard').innerHTML=`<span class="phase-tag">${PZ.indexOf(z)+1} de ${PZ.length}</span><h3>${z.n}</h3>${z.t}`}
+selPZ(PZ[2]);
+
+/* ---------- 5. UAC ---------- */
+const CEJ={tr:{l:'Traslape',p:'~60 %',t:'El cemento cubre el borde del esmalte. Es la relación más frecuente. La dentina queda protegida.'},
+ bb:{l:'Borde a borde',p:'~30 %',t:'Esmalte y cemento se encuentran sin cubrirse entre sí.'},
+ hu:{l:'Hueco',p:'~10 %',t:'Esmalte y cemento no llegan a tocarse y queda una franja de dentina expuesta. Si la encía se retrae, esa dentina queda en contacto con la boca y puede causar sensibilidad o facilitar la caries cervical.'}};
+function cejDraw(k){const s=$('#cejSvg');s.innerHTML='';
+  el('rect',{x:0,y:0,width:240,height:230,fill:'#fff'},s);
+  el('rect',{x:110,y:0,width:130,height:230,fill:C.den},s);
+  el('path',{d:'M110 0L82 0C84 40 92 80 110 112Z',fill:C.enam,stroke:'#cbbf9f'},s);
+  const cem={tr:'M110 230L101 230L101 140C100 120 96 104 92 84C91 80 95 80 97 84C100 96 103 106 110 112Z',bb:'M110 230L101 230L101 140C102 128 104 118 110 112Z',hu:'M110 230L101 230L101 160C102 148 105 138 110 134Z'}[k];
+  el('path',{d:cem,fill:C.cem},s);
+  if(k==='hu'){el('line',{x1:111,y1:112,x2:111,y2:134,stroke:'#b3261e','stroke-width':4,'stroke-linecap':'round'},s);const t=el('text',{x:124,y:128,'font-size':12.5,fill:'#b3261e','font-weight':600,'font-family':'Geist'},s);t.textContent='dentina expuesta'}
+  [['Esmalte',20,40],['Cemento',20,200],['Dentina',150,190]].forEach(([t,x,y])=>{const e=el('text',{x,y,'font-size':13,fill:'#3b4a5c','font-weight':600,'font-family':'Geist'},s);e.textContent=t});
+  el('line',{x1:72,y1:40,x2:92,y2:40,stroke:'#8a97a8'},s);el('line',{x1:80,y1:196,x2:100,y2:196,stroke:'#8a97a8'},s);
+  $$('#cejBtns button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
+  $('#cejTxt').innerHTML=`<div class="pct">${CEJ[k].p}</div><h3 style="margin-top:6px">${CEJ[k].l}</h3><p style="margin-top:6px">${CEJ[k].t}</p><p class="credit" style="margin-top:8px">Frecuencias clásicas atribuidas a Choquet. Varían según el diente y la cara.</p>`}
+Object.entries(CEJ).forEach(([k,c])=>{const b=document.createElement('button');b.textContent=c.l;b.dataset.k=k;b.onclick=()=>cejDraw(k);$('#cejBtns').appendChild(b)});
+cejDraw('tr');
+
+/* ---------- 5b. Fibras ---------- */
+const fb=makeTooth($('#fbSvg'),{id:'fb',pdl:10});const FW=10;
+const FG={cresta:{l:'De la cresta',t:'Van del cemento cervical, en dirección apical y hacia afuera, hasta la cresta alveolar. Resisten la extrusión y los movimientos laterales.'},
+ hor:{l:'Horizontales',t:'Justo apicales a las de la cresta, corren en ángulo recto al eje del diente. Resisten las fuerzas laterales.'},
+ obl:{l:'Oblicuas',t:'El grupo más numeroso. Se insertan en el hueso en un punto más coronal que en el cemento, así que convierten la presión de la masticación en tensión sobre el hueso.'},
+ api:{l:'Apicales',t:'Irradian desde el ápice hacia el fondo del alvéolo. Resisten las fuerzas que tienden a sacar el diente y protegen los vasos y nervios que entran por el foramen.'},
+ int:{l:'Interradiculares',t:'Solo en dientes multirradiculares: van del cemento de la furcación a la cresta del tabique interradicular.'}};
+const fibers=[];
+(function(){const add=(g,a,b)=>{fibers.push({g,a,b});fibers.push({g,a:[400-a[0],a[1]],b:[400-b[0],b[1]]})};const xo=y=>cr(G.MO,y),xi=y=>cr(G.MI,y);
+  [216,223,230].forEach(y=>add('cresta',[xo(y),y],[xo(y)-FW-6,244]));
+  [248,256,264].forEach(y=>add('hor',[xo(y),y],[xo(y)-FW-3,y]));
+  for(let y=276;y<=484;y+=12)add('obl',[xo(y),y],[xo(y-12)-FW-3,y-12]);
+  for(let y=340;y<=484;y+=12)add('obl',[xi(y),y],[xi(y-12)+FW+3,y-12]);
+  const cx=(xo(500)+xi(500))/2,r=(xi(500)-xo(500))/2;for(let k=1;k<=6;k++){const th=Math.PI*(.12+k*.11),c=Math.cos(th),s=Math.sin(th);add('api',[cx+r*c,500+r*1.24*s],[cx+(r+FW+4)*c,500+(r*1.24+FW+4)*s])}
+  let yc=290;while(200-(cr(G.MI,yc)+FW+3.5)<1.5&&yc<420)yc+=1;
+  [[288,4],[296,7],[304,10],[312,13]].filter(([y])=>y<yc).forEach(([y,j])=>add('int',[xi(y),y],[200-j*.9,yc+2]));
+  fibers.push({g:'int',a:[200,283],b:[200,yc+1]})})();
+fibers.forEach(f=>{f.el=el('line',{x1:f.a[0],y1:f.a[1],x2:f.b[0],y2:f.b[1],stroke:'#a35b52','stroke-width':1.2,opacity:.5},fb.L.fib)});
+const shG=el('g',{},fb.L.top);
+fibers.forEach(f=>[f.a,f.b].forEach(p=>el('circle',{cx:p[0],cy:p[1],r:1.9,fill:'#1d5bb8'},shG)));
+let fbSel='obl';
+function fbRender(){fibers.forEach(f=>{const on=f.g===fbSel;f.el.setAttribute('stroke',on?'#7a1f1f':'#a35b52');f.el.setAttribute('stroke-width',on?2:1);f.el.setAttribute('opacity',on?1:.35)});
+  shG.style.display=$('#shp').checked?'':'none';
+  $$('#fbBtns button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===fbSel));
+  $('#fbCard').innerHTML=`<h3>${FG[fbSel].l}</h3><p>${FG[fbSel].t}</p>`+($('#shp').checked?'<p><strong>Fibras de Sharpey (puntos azules):</strong> los extremos de cada fibra quedan incluidos y mineralizados en el cemento y en el hueso alveolar. Son el anclaje del diente.</p>':'')}
+Object.entries(FG).forEach(([k,g])=>{const b=document.createElement('button');b.textContent=g.l;b.dataset.k=k;b.onclick=()=>{fbSel=k;fbRender()};$('#fbBtns').appendChild(b)});
+$('#shp').onchange=fbRender;fbRender();
+
+/* ---------- 6. Caries ---------- */
+const ca=makeTooth($('#carSvg'),{id:'ca'});
+const cS=y=>xAt(ca.outP,y,false),cE=y=>xAt(ca.dejP,y,false),cP=y=>xAt(ca.chP,y,true);
+const KC={ws:'#ffffff',scl:'#fdf8ec',aff:'#d9a86c',inf:'#7a4f26',ter:'#d4ad6b',cav:'#ffffff',infl:'#c62828',nec:'#8d8d8d',api:'#e39a90'};
+function eCone(y1,y2,f,ym,inset=1.6){const P=[];for(let y=y1;y<=y2;y+=2)P.push([cS(y)+inset,y]);const ax=cS(ym)+f*(cE(ym)-cS(ym));P.push([ax+1,ym+2.5],[ax,ym],[ax+1,ym-2.5]);return P}
+function dCone(y1,y2,g,ym){const P=[];for(let y=y1;y<=y2;y+=2)P.push([cE(y)-.6,y]);const ax=cE(ym)+g*(cP(ym)-cE(ym));const Q=[[ax-2,ym+4],[ax,ym],[ax-2,ym-4]];return [...P,...Q]}
+function terD(y1,y2,w){const P=[],Q=[];for(let y=y1;y<=y2;y+=2){const b=Math.sin(Math.PI*(y-y1)/(y2-y1));P.push([cP(y),y]);Q.push([cP(y)+w*b,y])}return[...P,...Q.reverse()]}
+const ST=[
+ {c:'Sana',t:'Superficie con biopelícula',p:'Los ácidos de la biopelícula bajan el pH varias veces al día. Mientras la saliva y el flúor reponen lo que se pierde, no hay lesión.',vb:[78,90,136,170],
+  s:{Esmalte:'Ciclos de pérdida y recuperación de mineral en equilibrio.',Dentina:'Sin cambios.',Pulpa:'Normal.',Periápice:'Normal.'},ch:[]},
+ {c:'Reversible',t:'Mancha blanca',p:'El mineral se pierde bajo la superficie, que se conserva casi intacta porque ahí el mineral se redeposita. La porosidad dispersa la luz y la lesión se ve blanca y opaca, sobre todo al secarla.',vb:[78,90,136,170],
+  s:{Esmalte:'Lesión subsuperficial en cono, con la base hacia la superficie.',Dentina:'Sin cambios aparentes.',Pulpa:'Normal.',Periápice:'Normal.'},ch:['Esmalte'],lg:['ws']},
+ {c:'Puede detenerse',t:'La lesión alcanza la UAD',p:'Siguiendo los prismas, el cono llega a la UAD. Antes de que lleguen las bacterias, el complejo dentinopulpar ya responde a los ácidos y a las señales que viajan por los túbulos.',vb:[78,90,136,170],
+  s:{Esmalte:'Cono completo hasta la UAD, aún sin cavidad.',Dentina:'Esclerosis: los túbulos se obliteran con mineral.',Pulpa:'Inicia la dentina terciaria reaccionaria.',Periápice:'Normal.'},ch:['Esmalte','Dentina','Pulpa'],lg:['ws','scl','ter']},
+ {c:'Avanza en dentina',t:'Extensión en la dentina',p:'La desmineralización se extiende lateralmente por la UAD y avanza hacia la pulpa siguiendo los túbulos, en un cono con la base en la UAD. Delante de ella hay una zona de esclerosis.',vb:[78,90,136,170],
+  s:{Esmalte:'Lesión extensa; la superficie puede seguir íntegra.',Dentina:'Desmineralización en cono y esclerosis por delante.',Pulpa:'Más dentina terciaria.',Periápice:'Normal.'},ch:['Dentina','Pulpa'],lg:['ws','scl','aff','ter']},
+ {c:'Irreversible',t:'Cavitación',p:'Sin el soporte de la dentina sana, el esmalte se fractura. La biopelícula queda protegida dentro de la cavidad y las bacterias invaden la dentina.',vb:[78,90,136,170],
+  s:{Esmalte:'Se fractura y forma la cavidad.',Dentina:'Dentina infectada, blanda y con bacterias, sobre dentina afectada, desmineralizada pero recuperable.',Pulpa:'Puede haber pulpitis reversible: dolor provocado que cede.',Periápice:'Normal.'},ch:['Esmalte','Dentina','Pulpa'],lg:['aff','inf','scl','ter']},
+ {c:'Compromiso pulpar',t:'La lesión se acerca a la pulpa',p:'Las bacterias y sus productos llegan cerca de la pulpa. La inflamación crece dentro de paredes rígidas y puede volverse irreversible.',vb:[40,50,240,300],
+  s:{Esmalte:'Cavidad amplia.',Dentina:'Dentina infectada cerca de la pulpa.',Pulpa:'Inflamación; puede volverse irreversible, con dolor espontáneo o persistente.',Periápice:'Aún sin cambios, o ensanchamiento inicial del ligamento.'},ch:['Dentina','Pulpa'],lg:['aff','inf','ter','infl']},
+ {c:'Necrosis',t:'Necrosis y periodontitis apical',p:'La pulpa muere y la infección sale por el foramen apical. El ligamento y el hueso periapical se inflaman: la radiografía muestra un espacio ensanchado y pérdida de la lámina dura.',vb:[-6,40,412,515],
+  s:{Esmalte:'Cavidad amplia.',Dentina:'Infectada hasta la pulpa.',Pulpa:'Necrosis.',Periápice:'Periodontitis apical con reabsorción ósea periapical.'},ch:['Pulpa','Periápice'],lg:['inf','nec','api']},
+];
+const LGN={ws:'Mancha blanca',scl:'Dentina esclerótica',aff:'Dentina desmineralizada o afectada',inf:'Dentina infectada',ter:'Dentina terciaria',infl:'Pulpa inflamada',nec:'Pulpa necrótica',api:'Lesión periapical'};
+ST.forEach((s,i)=>{const b=document.createElement('button');b.textContent=i;b.setAttribute('aria-label','Etapa '+i+': '+s.t);b.onclick=()=>{$('#carRange').value=i;carRender()};$('#carBtns').appendChild(b)});
+let vbCur=ST[0].vb.slice(),vbRaf=null;
+function animVB(to){if(vbRaf)cancelAnimationFrame(vbRaf);const from=vbCur.slice(),t0=performance.now(),dur=RM?0:500;
+  const step=n=>{const k=dur?clamp((n-t0)/dur):1,e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;vbCur=from.map((v,i)=>lerp(v,to[i],e));$('#carSvg').setAttribute('viewBox',vbCur.join(' '));if(k<1)vbRaf=requestAnimationFrame(step);else vbRaf=null};vbRaf=requestAnimationFrame(step)}
+function carRender(){const i=+$('#carRange').value,s=ST[i],L=ca.L;
+  [L.les,L.pulpOv,L.fib].forEach(g=>g.innerHTML='');const P=(pts,f,g=L.les,a={})=>el('path',Object.assign({d:poly(pts),fill:f},a),g);
+  const ter=[0,0,1.6,2.6,3.6,4.4,4.4][i];if(ter)P(terD(152,198,ter),KC.ter);
+  if(i===1)P(eCone(160,186,.55,173),KC.ws,L.les,{stroke:'#cfc6ad','stroke-width':.5});
+  if(i===2||i===3){P(eCone(i===2?156:154,i===2?190:192,1,173),KC.ws,L.les,{stroke:'#cfc6ad','stroke-width':.5})}
+  if(i===2)P(dCone(162,184,.3,173),KC.scl,L.les,{stroke:'#e5d3a6','stroke-width':.5,'stroke-dasharray':'2 1.5'});
+  if(i===3){P(dCone(146,200,.62,173),KC.scl,L.les,{stroke:'#e5d3a6','stroke-width':.5});P(dCone(150,196,.45,173),KC.aff)}
+  if(i>=4){const g=[[.8,.66,.4],[.98,.9,.7],[1.1,1.1,.98]][i-4];
+    P(dCone(144,202,Math.min(g[0],.99),173),KC.scl,L.les,{stroke:'#e5d3a6','stroke-width':.5});P(dCone(148,198,Math.min(g[1],1.05),173),KC.aff);P(dCone(154,192,g[2],173),KC.inf);
+    const cav=[];for(let y=158;y<=188;y+=2)cav.push([cS(y)-.5,y]);const dp=i===4?1.15:1.3;for(let y=186;y>=160;y-=2){const b=Math.sin(Math.PI*(y-158)/30);cav.push([cE(y)+(dp-1)*12*b-(1-b)*2,y])}
+    P(cav,KC.cav,L.les,{stroke:'#5a3a1e','stroke-width':.8})}
+  if(i===5){const gr=el('radialGradient',{id:'caInf'},ca.defs);gr.innerHTML='<stop offset="0" stop-color="#c62828" stop-opacity=".85"/><stop offset="1" stop-color="#c62828" stop-opacity="0"/>';
+    el('circle',{cx:cP(170)+10,cy:168,r:46,fill:'url(#caInf)'},L.pulpOv)}
+  if(i===6){el('rect',{x:0,y:0,width:400,height:600,fill:KC.nec,opacity:.9},L.pulpOv);
+    [[152.5,520],[247.5,520]].forEach(([x,y])=>el('ellipse',{cx:x,cy:y,rx:30,ry:26,fill:KC.api},L.fib))}
+  animVB(s.vb);
+  $('#carChip').textContent='Etapa '+i+' · '+s.c;$('#carT').textContent=s.t;$('#carP').textContent=s.p;
+  $('#carStatus').innerHTML=Object.entries(s.s).map(([k,v])=>`<div class="${s.ch.includes(k)?'chg':''}"><b>${k}</b><span>${v}</span></div>`).join('');
+  $('#carLeg').innerHTML=(s.lg||[]).map(k=>`<span><b style="background:${KC[k]}"></b>${LGN[k]}</span>`).join('');
+  $$('#carBtns button').forEach((b,j)=>b.setAttribute('aria-pressed',j===i))}
+$('#carRange').addEventListener('input',carRender);carRender();
+
+/* conos */
+(function(){const s=$('#coneSvg');
+  [[0,'Superficie lisa'],[230,'Fosas y fisuras']].forEach(([ox,t],k)=>{const g=el('g',{transform:`translate(${ox} 0)`},s);
+    el('rect',{x:10,y:30,width:200,height:60,fill:C.enam,stroke:'#cbbf9f'},g);el('rect',{x:10,y:90,width:200,height:100,fill:C.den},g);
+    if(k===0){el('path',{d:'M70 30L150 30L110 88Z',fill:'#ffffff',stroke:'#b9ad8c'},g);el('path',{d:'M60 90L160 90L110 170Z',fill:KC.aff},g)}
+    else{el('path',{d:'M96 30L110 30L110 30L124 30L114 62L106 62Z',fill:'#ffffff',stroke:'#9b8457'},g);
+      el('path',{d:'M106 62L114 62L118 30L102 30Z',fill:'#fff'},g);
+      el('path',{d:'M104 40L116 40L150 90L70 90Z',fill:'#7a4f26',opacity:.25},g);el('path',{d:'M104 40L116 40L150 90L70 90Z',fill:'none',stroke:'#7a4f26'},g);
+      el('path',{d:'M60 90L160 90L110 170Z',fill:KC.aff},g)}
+    const tt=el('text',{x:110,y:20,'text-anchor':'middle','font-size':14,'font-weight':600,fill:'#0f1e33','font-family':'Geist'},g);tt.textContent=t;
+    const a=el('text',{x:205,y:64,'text-anchor':'end','font-size':11,fill:'#6d5a2e','font-family':'Geist'},g);a.textContent='esmalte';
+    const b=el('text',{x:205,y:180,'text-anchor':'end','font-size':11,fill:'#6d5a2e','font-family':'Geist'},g);b.textContent='dentina'})})();
+
+/* ---------- 7. Quiz ---------- */
+const QZ=[
+ {q:'¿Cómo cambian los túbulos dentinarios al acercarse a la pulpa?',o:['Son menos numerosos y más estrechos','Son más numerosos y de mayor diámetro','Son más numerosos pero más estrechos','Conservan su número y se ensanchan'],c:1,e:'Cerca de la pulpa hay unos 45 000 túbulos por mm² de unos 2.5 µm, contra unos 20 000 de 0.9 µm cerca de la UAD.'},
+ {q:'¿Qué son las periquimatías?',o:['Fisuras superficiales por fatiga del esmalte','Cambios de dirección de grupos de prismas','Prolongaciones atrapadas al otro lado de la UAD','Los extremos superficiales de las estrías de Retzius'],c:3,e:'Donde una estría de Retzius alcanza la superficie deja un surco: la periquimatía.'},
+ {q:'¿Qué contiene la zona oligocelular de Weil?',o:['Capilares y el plexo nervioso de Raschkow','Los cuerpos celulares de los odontoblastos','Fibroblastos y células indiferenciadas abundantes','Los vasos y nervios de mayor calibre'],c:0,e:'Es pobre en células pero rica en capilares y en el plexo de Raschkow. La zona rica en células está por debajo.'},
+ {q:'Un paciente con recesión tiene sensibilidad cervical sin desgaste visible. ¿Qué relación de la UAC lo explicaría mejor?',o:['El cemento traslapa el esmalte','Esmalte y cemento borde a borde','Hueco entre esmalte y cemento','El esmalte cubre al cemento'],c:2,e:'En cerca del 10 % de los casos queda una franja de dentina sin cubrir, que se expone al retraerse la encía.'},
+ {q:'¿Por qué una mancha blanca conserva una capa superficial casi intacta?',o:['Los ameloblastos siguen reparando la superficie','En la superficie el mineral se redeposita','La biopelícula protege la capa más externa','Los ácidos no atraviesan el esmalte sano'],c:1,e:'Mientras se pierde mineral en el cuerpo de la lesión, en la superficie se redeposita con ayuda de la saliva y el flúor.'},
+ {q:'¿Por qué la caries radicular puede avanzar más rápido que la del esmalte?',o:['El cemento tiene túbulos más anchos que la dentina','La saliva no alcanza la superficie de la raíz','El cemento carece de fibras de colágeno','Menos mineral y un pH crítico más alto'],c:3,e:'El cemento y la dentina se desmineralizan desde un pH de ~6.2 a 6.7, contra ~5.5 del esmalte.'},
+ {q:'¿Qué son las fibras de Sharpey?',o:['Fibras principales insertadas en cemento y hueso','Fibras elásticas que rodean el foramen apical','Fibras gingivales que unen dientes vecinos','Colágeno de la dentina del manto'],c:0,e:'Son los extremos de las fibras principales del ligamento, mineralizados dentro del cemento y del hueso alveolar.'},
+];
+function buildQuiz(){const box=$('#quiz');box.innerHTML='';let done=0,good=0;$('#score').textContent='';
+  QZ.forEach((x,i)=>{const d=document.createElement('div');d.className='qz';d.innerHTML=`<fieldset><legend>${i+1}. ${x.q}</legend>${x.o.map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}">${o}</label>`).join('')}</fieldset><p class="fb" hidden role="status"></p>`;
+    d.querySelectorAll('input').forEach(r=>r.onchange=()=>{const ok=+r.value===x.c;d.querySelectorAll('input').forEach(q=>q.disabled=true);
+      d.querySelectorAll('label')[x.c].classList.add('good');if(!ok)r.parentElement.classList.add('bad');
+      const f=d.querySelector('.fb');f.hidden=false;f.innerHTML=`<strong>${ok?'Correcto.':'No exactamente.'}</strong> ${x.e}`;
+      done++;if(ok)good++;if(done===QZ.length)$('#score').textContent=good+' de '+QZ.length});box.appendChild(d)})}
+buildQuiz();$('#reQuiz').onclick=buildQuiz;
+</script>
+</body>
+</html>
